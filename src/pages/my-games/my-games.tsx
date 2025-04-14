@@ -10,6 +10,8 @@ export function MyGames() {
   const navigate = useNavigate();
   const { data, isLoading } = useGetGames();
 
+  console.log("Chegou", data);
+
   function handleNavigateTo(screen: string) {
     navigate(screen);
   }
@@ -20,12 +22,14 @@ export function MyGames() {
         <img src={btnQuebraCab} alt="Jogar" />
       </button>
 
-      <div className="slider-container">
-        <Slider cardsData={data} goConfig />
-      </div>
+      {data && (
+        <div className="slider-container">
+          <Slider cardsData={data} goConfig />
+        </div>
+      )}
 
       <div className="my-games-new-game-button-container">
-      <Button
+        <Button
           text="Novo Jogo"
           onClick={() => handleNavigateTo("/new-game")}
         />

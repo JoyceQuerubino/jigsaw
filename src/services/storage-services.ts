@@ -72,9 +72,9 @@ export function getGamesReady() {
         return games;
       }
       // Se não tiver jogos, cria um jogo padrão
-      localStorage.setItem("games", JSON.stringify(defaultGames));
+      const newGanes = localStorage.setItem("games", JSON.stringify(defaultGames));
   
-      return defaultGames;
+      return newGanes;
     } catch (error) {
       console.error("Erro ao ler jogos:", error);  
       localStorage.setItem("games", JSON.stringify(defaultGames));
