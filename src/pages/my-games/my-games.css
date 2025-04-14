@@ -1,0 +1,41 @@
+.container-my-games {
+  max-width: 960px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.slider-container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-games-new-game-button-container {
+  margin-top: 65px;
+}
+
+.my-game-button img {
+  max-width: 268px;
+  height: 68px;
+  display: block;
+}
+
+.my-game-quebra-button {
+  background: none;
+  border: none;
+  transition: transform 0.2s ease;
+  width: 288px;
+  height: auto;
+  opacity: 0.8;
+}
+
+.my-game-quebra-button img {
+  width: 100%;
+  height: auto;
+}
