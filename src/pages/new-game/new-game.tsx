@@ -8,7 +8,7 @@ import { Modal } from "../../components/Modal/Modal";
 import { ModalContent } from "../../components/ModalContent/ModalContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
-import { addGame } from "../../services/storage-services";
+import { addGame, editGameById } from "../../services/storage-services";
 import { GameType } from "../../services/types";
 
 export function NewGame() {
@@ -16,6 +16,7 @@ export function NewGame() {
   const [theme, setTheme] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [editingGameId, setEditingGameId] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -25,13 +26,26 @@ export function NewGame() {
       const gameData = location.state.gameData as GameType;
       setTheme(gameData.title);
       setSelectedImage(gameData.image);
+      setEditingGameId(gameData.id);
     }
   }, [location.state]);
 
-  const { mutateAsync: createNewGameFn } = useMutation({
-    mutationFn: async (newGame: GameType) => {
-      addGame(newGame);
-      return newGame;
+  const { mutateAsync: saveGameFn } = useMutation({
+    mutationFn: async (gameData: GameType) => {
+      if (editingGameId) {
+        editGameById({ 
+          id: editingGameId, 
+          updatedGameData: {
+            title: gameData.title,
+            image: gameData.image,
+            type: gameData.type
+          }
+        });
+        return { ...gameData, id: editingGameId };
+      } else {
+        addGame(gameData);
+        return gameData;
+      }
     },
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: [reactQueryConsts.LIST_GAMES] });
@@ -45,8 +59,8 @@ export function NewGame() {
       return;
     }
 
-    await createNewGameFn({
-      id: uuidv4(),
+    await saveGameFn({
+      id: editingGameId || uuidv4(),
       title: theme,
       type: "Quebra-cabeça",
       image: selectedImage,
@@ -93,7 +107,7 @@ export function NewGame() {
 
         <div>
           <Button
-            text="Salvar"
+            text={editingGameId ? "Salvar Alterações" : "Salvar"}
             onClick={handleNavigateTo}
             imageWidth="268px"
             imageHeight="68px"
