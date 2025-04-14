@@ -1,7 +1,7 @@
 import "./new-game.css";
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
-import { useNavigate } from "react-router"; 
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router"; 
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { Modal } from "../../components/Modal/Modal";
@@ -12,12 +12,21 @@ import { addGame } from "../../services/storage-services";
 import { GameType } from "../../services/types";
 
 export function NewGame() {
+  const location = useLocation();
   const [theme, setTheme] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (location.state?.gameData) {
+      const gameData = location.state.gameData as GameType;
+      setTheme(gameData.title);
+      setSelectedImage(gameData.image);
+    }
+  }, [location.state]);
 
   const { mutateAsync: createNewGameFn } = useMutation({
     mutationFn: async (newGame: GameType) => {
@@ -30,7 +39,7 @@ export function NewGame() {
     },
   });
 
-  async function handleCreateNewGame() {
+  async function handleNavigateTo() {
     if (!theme || !selectedImage) {
       alert("Selecione a imagem e digite o tema.");
       return;
@@ -85,7 +94,7 @@ export function NewGame() {
         <div>
           <Button
             text="Salvar"
-            onClick={handleCreateNewGame}
+            onClick={handleNavigateTo}
             imageWidth="268px"
             imageHeight="68px"
           />

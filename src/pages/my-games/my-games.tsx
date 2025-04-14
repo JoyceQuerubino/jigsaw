@@ -5,6 +5,7 @@ import btnQuebraCab from "../../assets/images/my-games/btn-quebra-cab.png";
 import "./my-games.css";
 import { Button } from "../../components/Button/Button";
 import { useGetGames } from "../../hooks/useGetGames";
+import { GameType } from "../../services/types";
 
 export function MyGames() {
   const navigate = useNavigate();
@@ -16,6 +17,14 @@ export function MyGames() {
     navigate(screen);
   }
 
+  function handleGameSelect(game: GameType) {
+    navigate("/new-game", { 
+      state: { 
+        gameData: game 
+      } 
+    });
+  }
+
   return (
     <div className="container-my-games">
       <button className="my-game-quebra-button" disabled>
@@ -24,7 +33,10 @@ export function MyGames() {
 
       {data && (
         <div className="slider-container">
-          <Slider cardsData={data} goConfig />
+          <Slider 
+            cardsData={data} 
+            onNavigate={handleGameSelect}
+          />
         </div>
       )}
 

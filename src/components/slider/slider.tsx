@@ -4,11 +4,9 @@ import { motion, useAnimation } from "framer-motion";
 import btnBack from "../../assets/images/slider/btn-back.png";
 import btnGo from "../../assets/images/slider/btn-go.png";
 import { useNavigate } from "react-router-dom";
+import { GameType } from "../../services/types";
 
-interface CardData {
-  title: string;
-  id: string;
-  image: string;
+interface CardData extends Omit<GameType, 'type'> {
   disabled?: boolean;
   goConfig?: boolean;
 }
@@ -16,13 +14,19 @@ interface CardData {
 interface SliderProps {
   cardsData: CardData[];
   goConfig?: boolean;
+  onNavigate?: (card: CardData) => void;
 }
 
-function Card({ title, id, disabled, image, goConfig}: CardData) {
+function Card({ title, id, disabled, image, goConfig, onNavigate }: CardData & { onNavigate?: (card: CardData) => void }) {
   const navigate = useNavigate();
 
   function handleNavigate() {
     if (disabled) return;
+
+    if (onNavigate) {
+      onNavigate({ title, id, image, disabled, goConfig });
+      return;
+    }
 
     if(goConfig) {
       navigate(`/config/${encodeURIComponent(image)}`);
@@ -49,7 +53,7 @@ function Card({ title, id, disabled, image, goConfig}: CardData) {
   );
 }
 
-export function Slider({ cardsData, goConfig }: SliderProps) {
+export function Slider({ cardsData, goConfig, onNavigate }: SliderProps) {
   const carousel = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const controls = useAnimation();
@@ -106,6 +110,7 @@ export function Slider({ cardsData, goConfig }: SliderProps) {
               disabled={card.disabled}
               image={card.image}
               goConfig={goConfig}
+              onNavigate={onNavigate}
             />
           ))}
         </motion.div>
