@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import btnStartTimer from '../assets/images/btn-start-timer.png';
+import btnPause from '../assets/images/btn-pause.png';
 
 interface TimerControlButtonProps {
   isPaused: boolean;
@@ -24,7 +26,7 @@ export const TimerControlButton: React.FC<TimerControlButtonProps> = ({ isPaused
       }}
     >
       <img
-        src={isPaused ? '/src/assets/images/btn-start-timer.png' : '/src/assets/images/btn-pause.png'}
+        src={isPaused ? btnStartTimer : btnPause}
         alt={isPaused ? 'Iniciar' : 'Pausar'}
         style={{ 
           width: '100%',
