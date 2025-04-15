@@ -2,9 +2,13 @@ import "./results.css";
 import { useState } from "react";
 import btnBack from "../../assets/images/slider/btn-back.png";
 import btnGo from "../../assets/images/slider/btn-go.png";
+import { useGetUserResults } from "../../hooks/useGetUserResults";
 
 export function Results() {
   const [steps, setSteps] = useState(0);
+
+  const { data, isLoading, error } = useGetUserResults();
+  console.log("Chegou", data)
 
   return (
     <div className="results-container">

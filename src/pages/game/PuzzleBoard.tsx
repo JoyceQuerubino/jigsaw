@@ -4,7 +4,6 @@ import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import { useGame } from "../../contexts/GameContext";
 import { useTimer } from "../../hooks/useTimer";
-import { TimerControlButton } from '../../components/TimerControlButton';
 
 interface Piece {
   row: number;
@@ -37,7 +36,13 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     return complete;
   }, [pieces, setIsPuzzleComplete]);
 
-  const { time, isPaused, setIsPaused, formatTime } = useTimer({
+  useEffect(() => {
+    if (isComplete) {
+      alert('Parabéns! Você completou o puzzle!');
+    }
+  }, [isComplete]);
+
+  const { setIsPaused } = useTimer({
     isComplete
   });
 

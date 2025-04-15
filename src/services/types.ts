@@ -16,3 +16,10 @@ export type EditGameProps = {
   id: string;
   updatedGameData: EditeGameType;
 };
+
+export type userResult = {
+  id: string;
+  username: string;
+  gameTitile: string;
+  time: string;
+}

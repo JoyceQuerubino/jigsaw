@@ -10,6 +10,7 @@ export const useTimer = ({ isComplete }: UseTimerProps) => {
 
   useEffect(() => {
     if (isComplete) {
+      console.log("ACABOU!!!");
       setIsPaused(true);
     }
   }, [isComplete]);
