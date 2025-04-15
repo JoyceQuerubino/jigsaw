@@ -68,3 +68,17 @@ body {
     width: 100%;
     height: auto;
 }
+
+.home-guaxi-container {
+    width: 22%;
+    height: 94%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.home-guaxi-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
