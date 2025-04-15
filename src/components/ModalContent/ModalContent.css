@@ -5,12 +5,37 @@
   gap: 1rem;
   padding: 1rem 0;
   justify-content: space-between;
+  max-height: 80vh;
+
+  margin-top: 16px;
 }
 
 .images-grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 24px;
+  overflow-y: auto;
+  max-height: calc(80vh - 120px);
+  padding-right: 1rem;
+}
+
+.images-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.images-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.images-grid::-webkit-scrollbar-thumb {
+  background: #E98A03;
+  border-radius: 4px;
+}
+
+.images-grid::-webkit-scrollbar-thumb:hover {
+  background: #d17a02;
 }
 
 .modal-image {
