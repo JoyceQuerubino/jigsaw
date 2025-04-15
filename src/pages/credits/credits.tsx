@@ -1,4 +1,5 @@
 import "./credits.css";
+import unifespLogo from "../../assets/images/unifesp.png";
 
 export function Credits() {
   return (
@@ -16,6 +17,10 @@ export function Credits() {
                 <h3>Coorientadoras</h3>
                 <p>Dra. Regina Célia Coelho</p>
                 <p>Dra. Vanessa Andrade Pereira</p>
+              </div>
+
+              <div className="credits-content-items">
+                <img src={unifespLogo} alt="Logo UNIFESP" className="unifesp-logo" />
               </div>
             </div>
 

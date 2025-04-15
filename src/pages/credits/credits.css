@@ -69,3 +69,11 @@
 .credits-content-items {
   margin-bottom: 32px;
 }
+
+.unifesp-logo {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
