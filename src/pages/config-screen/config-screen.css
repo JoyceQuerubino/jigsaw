@@ -71,9 +71,9 @@
 }
 
 .piece-option.selected {
-  background-color: #007EB8;
+  background-color: #E98A03;
   transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(255, 165, 0, 0.7);
+  box-shadow: 0 2px 8px rgba(233, 138, 3, 0.7);
 }
 
 .start-button {
