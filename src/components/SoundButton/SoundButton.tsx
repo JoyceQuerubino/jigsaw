@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import './styles.css';
 
+import sound from "../../assets/images/btn-sound.png";
+
 export const SoundButton: React.FC = () => {
   return (
     <motion.button
@@ -9,7 +11,7 @@ export const SoundButton: React.FC = () => {
       className="sound-button"
     >
       <img
-        src="/src/assets/images/btn-sound.png"
+        src={sound}
         alt="Som"
       />
     </motion.button>

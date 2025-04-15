@@ -182,8 +182,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
       let isPlaced = false;
 
       // Limita o movimento dentro do quadrado azul considerando o padding
-      newX = Math.max(16, Math.min(newX, 934 - PIECE_SIZE));
-      newY = Math.max(16, Math.min(newY, (rows * PIECE_SIZE + 284) - PIECE_SIZE));
+      newX = Math.max(16, Math.min(newX, 770 - PIECE_SIZE - 32));
+      newY = Math.max(16, Math.min(newY, (rows * PIECE_SIZE + 300) - PIECE_SIZE - 32));
 
       // Verifica a posição correta primeiro
       const correctX = draggedPiece.col * PIECE_SIZE + 16;
@@ -291,9 +291,9 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
               dragMomentum={false}
               dragConstraints={{
                 left: 16,
-                right: 934 - PIECE_SIZE,
+                right: 770 - PIECE_SIZE - 32,
                 top: 16,
-                bottom: (rows * PIECE_SIZE + 284) - PIECE_SIZE
+                bottom: (rows * PIECE_SIZE + 300) - PIECE_SIZE - 32
               }}
               dragElastic={0}
               onDragEnd={(_, info) => handleDragEnd(piece.id, info)}
