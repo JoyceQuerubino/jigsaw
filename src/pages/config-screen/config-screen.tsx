@@ -14,7 +14,7 @@ const difficulties = [
 ];
 
 export function ConfigScreen() {
-  const { puzzleImage } = useParams();
+  const { puzzleImage, title } = useParams();
   const navigate = useNavigate();
   const { setGameData } = useGame();
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('medium');
@@ -29,7 +29,8 @@ export function ConfigScreen() {
     setGameData({
       difficulty: selectedDifficulty,
       playerName: playerName,
-      puzzleImage: puzzleImage ? decodeURIComponent(puzzleImage) : ""
+      puzzleImage: puzzleImage ? decodeURIComponent(puzzleImage) : "",
+      title: title ? decodeURIComponent(title) : ""
     });
 
     navigate(screen);

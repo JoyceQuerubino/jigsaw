@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
                 
             },
             { 
-                path: '/config/:puzzleImage', 
+                path: '/config/:puzzleImage/:title', 
                 element: <ConfigScreen/>,
                 handle: {
                     title: "Configurações",

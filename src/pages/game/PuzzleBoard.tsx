@@ -22,7 +22,7 @@ interface PuzzleGameProps {
 
 export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   const [pieces, setPieces] = useState<Piece[]>([]);
-  const { puzzleImage: contextImage, setIsPuzzleComplete } = useGame();
+  const { puzzleImage: contextImage, setIsPuzzleComplete, title } = useGame();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const SNAP_DISTANCE = 25;
   
@@ -37,10 +37,10 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   }, [pieces, setIsPuzzleComplete]);
 
   useEffect(() => {
-    if (isComplete) {
+    if (isComplete && pieces.length > 0) {
       alert('Parabéns! Você completou o puzzle!');
     }
-  }, [isComplete]);
+  }, [isComplete, pieces.length]);
 
   const { setIsPaused } = useTimer({
     isComplete

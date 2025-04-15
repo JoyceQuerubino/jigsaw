@@ -29,7 +29,7 @@ function Card({ title, id, disabled, image, goConfig, onNavigate }: CardData & {
     }
 
     if(goConfig) {
-      navigate(`/config/${encodeURIComponent(image)}`);
+      navigate(`/config/${encodeURIComponent(image)}/${encodeURIComponent(title)}`);
       return;
     }
 

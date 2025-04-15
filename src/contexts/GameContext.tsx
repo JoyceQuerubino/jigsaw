@@ -4,8 +4,9 @@ interface GameContextData {
   difficulty: 'easy' | 'medium' | 'hard';
   playerName: string;
   puzzleImage: string;
+  title: string;
   isPuzzleComplete: boolean;
-  setGameData: (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string }) => void;
+  setGameData: (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string }) => void;
   setIsPuzzleComplete: (isComplete: boolean) => void;
 }
 
@@ -19,11 +20,12 @@ export function GameProvider({ children }: GameProviderProps) {
   const [gameData, setGameData] = useState({
     difficulty: 'medium' as 'easy' | 'medium' | 'hard',
     playerName: '',
-    puzzleImage: ''
+    puzzleImage: '',
+    title: ''
   });
   const [isPuzzleComplete, setIsPuzzleComplete] = useState(false);
 
-  const handleSetGameData = (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string }) => {
+  const handleSetGameData = (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string }) => {
     setGameData(data);
   };
 
