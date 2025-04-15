@@ -10,6 +10,7 @@ import { MyGames } from "./pages/my-games/my-games";
 import { NewGame } from "./pages/new-game/new-game";
 import { Tutorial } from "./pages/tutorial/tutorial";
 import { Credits } from "./pages/credits/credits";
+import { Results } from "./pages/results/results";
 
 export const router = createBrowserRouter([
     {   
@@ -89,6 +90,14 @@ export const router = createBrowserRouter([
             { 
                 path: '/credits', 
                 element: <Credits/>,
+                handle: {
+                    isMenu: true
+                }
+                
+            },
+            { 
+                path: '/results', 
+                element: <Results/>,
                 handle: {
                     isMenu: true
                 }

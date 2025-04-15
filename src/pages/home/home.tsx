@@ -26,7 +26,7 @@ export function Home() {
             <img src={btnMeusJogos} alt="Meus Jogos" />
           </button>
           <button className="menu-button">
-            <img src={btnResultados} alt="Resultados" />
+            <img src={btnResultados} alt="Resultados" onClick={() => handleNavigateTo('/results')}/>
           </button>
           <button className="menu-button">
             <img src={btnTutorial} alt="Tutorial" onClick={() => handleNavigateTo('/tutoriais')}/> 
