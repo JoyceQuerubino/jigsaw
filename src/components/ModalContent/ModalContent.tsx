@@ -28,11 +28,10 @@ const images = [
 
 interface ModalContentProps {
   onImageSelect: (imageSrc: string | null) => void;
-  selectedImage: string | null;
   onClose: () => void;
 }
 
-export function ModalContent({ onImageSelect, selectedImage, onClose }: ModalContentProps) {
+export function ModalContent({ onImageSelect, onClose }: ModalContentProps) {
   const [visuallySelectedImage, setVisuallySelectedImage] = useState<string | null>(null);
 
   const handleImageClick = (imageSrc: string) => {

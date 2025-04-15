@@ -1,4 +1,3 @@
-import PuzzleGame from "./PuzzleBoard";
 import "./styles.css";
 import { Slider } from "../../components/slider/slider";
 import constructionImage from "../../assets/images/games/construction.png"
@@ -31,11 +30,3 @@ export function ModelScreen() {
     </div>
   );
 }
-
-// export function ModelScreen() {
-//   return (
-//     <div className="model-container">
-//         <PuzzleGame />
-//     </div>
-//   );
-// }

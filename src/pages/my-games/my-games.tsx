@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router";
 import { Slider } from "../../components/slider/slider";
 import btnQuebraCab from "../../assets/images/my-games/btn-quebra-cab.png";
@@ -9,18 +8,19 @@ import { GameType } from "../../services/types";
 
 export function MyGames() {
   const navigate = useNavigate();
-  const { data, isLoading } = useGetGames();
-
-  console.log("Chegou", data);
+  const { data } = useGetGames();
 
   function handleNavigateTo(screen: string) {
     navigate(screen);
   }
 
-  function handleGameSelect(game: GameType) {
+  function handleGameSelect(card: { title: string; id: string; image: string }) {
     navigate("/new-game", { 
       state: { 
-        gameData: game 
+        gameData: {
+          ...card,
+          type: "Quebra-cabeças",
+        } as GameType
       } 
     });
   }

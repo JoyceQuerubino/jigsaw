@@ -8,7 +8,7 @@ export function Results() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const { data, isLoading, error } = useGetUserResults();
+  const { data } = useGetUserResults();
 
   const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
   const startIndex = (currentPage - 1) * itemsPerPage;

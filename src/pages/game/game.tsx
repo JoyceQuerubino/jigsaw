@@ -5,7 +5,7 @@ import { useGame } from "../../contexts/GameContext";
 import { useNavigate } from "react-router-dom";
 
 export function Game() {
-  const { difficulty, playerName, puzzleImage } = useGame();
+  const { difficulty, puzzleImage } = useGame();
   const navigate = useNavigate();
 
   useEffect(() => {

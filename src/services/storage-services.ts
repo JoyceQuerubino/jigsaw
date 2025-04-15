@@ -3,17 +3,19 @@ import { defaultGames } from "./data/default";
 import { EditGameProps, GameType } from "./types";
 
 const StorageService = {
-  savePlayers(players) {
+  savePlayers(players: any[]) {
     localStorage.setItem("players", JSON.stringify(players));
   },
-  getPlayers() {
-    return JSON.parse(localStorage.getItem("players")) || [];
+  getPlayers(): any[] {
+    const players = localStorage.getItem("players");
+    return players ? JSON.parse(players) : [];
   },
-  saveGames(games) {
+  saveGames(games: GameType[]) {
     localStorage.setItem("games", JSON.stringify(games));
   },
-  getGames() {
-    return JSON.parse(localStorage.getItem("games")) || [];
+  getGames(): GameType[] {
+    const games = localStorage.getItem("games");
+    return games ? JSON.parse(games) : [];
   },
 };
 
@@ -23,7 +25,7 @@ export function addGame(newGame: GameType) {
 
   const gameWithId = {
     ...newGame,
-    id: newGame.id || uuidv4(), // <-- Gerando ID usando uuidv4()
+    id: newGame.id || uuidv4(),
   };
 
   const updatedGames = [...currentGames, gameWithId];
@@ -33,7 +35,7 @@ export function addGame(newGame: GameType) {
 export function editGameById({ id, updatedGameData }: EditGameProps) {
   const currentGames = StorageService.getGames();
 
-  const updatedGames = currentGames.map((game) =>
+  const updatedGames = currentGames.map((game: GameType) =>
     game.id === id ? { ...game, ...updatedGameData } : game
   );
 
@@ -43,30 +45,31 @@ export function editGameById({ id, updatedGameData }: EditGameProps) {
 export function deleteGameById(id: string) {
   const currentGames = StorageService.getGames();
 
-  const updatedGames = currentGames.filter((game) => game.id !== id);
+  const updatedGames = currentGames.filter((game: GameType) => game.id !== id);
 
   StorageService.saveGames(updatedGames);
 }
 
-
-export function getGamesReady() {
-    try {
-      const games = JSON.parse(localStorage.getItem("games"));
-  
-      if (Array.isArray(games)) {
-        return games;
-      }
-      // Se não tiver jogos, cria um jogo padrão
-      const newGanes = localStorage.setItem("games", JSON.stringify(defaultGames));
-  
-      return newGanes;
-    } catch (error) {
-      console.error("Erro ao ler jogos:", error);  
+export function getGamesReady(): GameType[] {
+  try {
+    const gamesStr = localStorage.getItem("games");
+    if (!gamesStr) {
       localStorage.setItem("games", JSON.stringify(defaultGames));
-  
       return defaultGames;
     }
+
+    const games = JSON.parse(gamesStr);
+    if (Array.isArray(games)) {
+      return games;
+    }
+
+    localStorage.setItem("games", JSON.stringify(defaultGames));
+    return defaultGames;
+  } catch (error) {
+    console.error("Erro ao ler jogos:", error);
+    localStorage.setItem("games", JSON.stringify(defaultGames));
+    return defaultGames;
   }
-  
+}
 
 //nao pode editar e nem deletar os jogos padroes. 

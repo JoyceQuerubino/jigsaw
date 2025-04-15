@@ -64,7 +64,7 @@ export function NewGame() {
         return gameData;
       }
     },
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [reactQueryConsts.LIST_GAMES] });
       navigate("/my-games");
     },
@@ -159,17 +159,18 @@ export function NewGame() {
         </div>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Selecionar Imagem"
-      >
-        <ModalContent
-          selectedImage={selectedImage}
-          onImageSelect={setSelectedImage}
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-        />
-      </Modal>
+          title="Selecionar Imagem"
+        >
+          <ModalContent
+            onImageSelect={setSelectedImage}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

@@ -1,10 +1,9 @@
-import React from "react";
-import "./styles.css";
 import { Slider } from "../../components/slider/slider";
 import { useGetGames } from "../../hooks/useGetGames";
+import "./theme-screen.css";
 
 export function ThemeScreen() {
-  const { data, isLoading } = useGetGames();
+  const { data } = useGetGames();
 
   return (
     <>

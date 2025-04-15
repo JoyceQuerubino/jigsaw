@@ -1,5 +1,5 @@
 //peças como um estado
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import { useGame } from "../../contexts/GameContext";
