@@ -3,6 +3,7 @@ import btnJogar from "../../assets/images/menu/btn-jogar.png";
 import "./config-screen.css";
 import { useState } from "react";
 import { Input } from "../../components/Input/Input";
+import { useGame } from "../../contexts/GameContext";
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -15,6 +16,7 @@ const difficulties = [
 export function ConfigScreen() {
   const { puzzleImage } = useParams();
   const navigate = useNavigate();
+  const { setGameData } = useGame();
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('medium');
   const [playerName, setPlayerName] = useState<string>("");
 
@@ -24,13 +26,13 @@ export function ConfigScreen() {
       return;
     }
 
-    const gameData = {
+    setGameData({
       difficulty: selectedDifficulty,
       playerName: playerName,
-      puzzleImage: puzzleImage
-    };
+      puzzleImage: puzzleImage ? decodeURIComponent(puzzleImage) : ""
+    });
 
-    navigate(screen, { state: gameData });
+    navigate(screen);
   }
 
   return (

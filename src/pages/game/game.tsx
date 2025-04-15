@@ -1,11 +1,10 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import "./game.css";
 import PuzzleGame from "./PuzzleBoard";
+import { useGame } from "../../contexts/GameContext";
 
 export function Game() {
-  const location = useLocation();
-  const { difficulty, playerName, puzzleImage } = location.state;
+  const { difficulty, playerName, puzzleImage } = useGame();
 
   useEffect(() => {
     console.log("Dados recebidos na tela de jogo:", {

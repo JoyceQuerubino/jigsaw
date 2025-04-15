@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
+import { useGame } from "../../contexts/GameContext";
 
 interface Piece {
   row: number;
@@ -19,8 +20,8 @@ interface PuzzleGameProps {
 }
 
 export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
-  const [isPortrait, setIsPortrait] = useState(false);
   const [pieces, setPieces] = useState<Piece[]>([]);
+  const { puzzleImage: contextImage } = useGame();
 
   const constraintsRef = useRef<HTMLDivElement>(null);
   const SNAP_DISTANCE = 25;
@@ -28,11 +29,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
 
   useEffect(() => {
     const img = new Image();
-    img.src = school;
-    img.onload = () => {
-      setIsPortrait(img.height > img.width);
-    };
-  }, []);
+    img.src = contextImage || school;
+  }, [contextImage]);
 
   // Configuração de peças baseada na dificuldade
   const getPuzzleConfig = () => {
@@ -222,7 +220,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
                 <path d={getPiecePath(piece.row, piece.col)} />
               </clipPath>
               <image
-                href={school}
+                href={contextImage || school}
                 width={cols * PIECE_SIZE}
                 height={rows * PIECE_SIZE}
                 clipPath={`url(#clip-${index})`}
