@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
+import guaxinimImage from "../../assets/images/guaxinim.png";
 import { useGame } from "../../contexts/GameContext";
 import { useTimer } from "../../hooks/useTimer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -238,7 +239,14 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      width: '100%', 
+      position: 'relative',
+      padding: '0 20px'
+    }}>
       <div ref={constraintsRef} style={{ position: "relative", width: 950, height: rows * PIECE_SIZE + 300 }}>
         <svg width={950} height={rows * PIECE_SIZE + 300} style={{ 
           position: "absolute", 
@@ -311,6 +319,15 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
           ))}
         </svg>
       </div>
+      <img 
+        src={guaxinimImage} 
+        alt="Guaxinim" 
+        style={{
+          width: '250px',
+          height: 'auto',
+          alignSelf: 'flex-end'
+        }}
+      />
     </div>
   );
 }

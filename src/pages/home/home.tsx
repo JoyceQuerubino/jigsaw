@@ -5,6 +5,7 @@ import btnMeusJogos from "../../assets/images/menu/btn-meus-jogos.png";
 import btnResultados from "../../assets/images/menu/btn-resultados.png";
 import btnTutorial from "../../assets/images/menu/btn-tutorial.png";
 import btnCreditos from "../../assets/images/menu/btn-creditos.png";
+import guaxinimImage from "../../assets/images/guaxinim.png";
 import { useNavigate } from "react-router-dom";
 
 export function Home() {
@@ -16,6 +17,7 @@ export function Home() {
 
   return (
     <div className="box-container">
+      <img src={guaxinimImage} alt="Guaxinim" className="guaxinim-image" />
       <div className="menu-container">
         <img src={boxMenuImage} alt="Menu Box" className="menu-image" />
         <div className="buttons-list">

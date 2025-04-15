@@ -3,6 +3,8 @@ import { useNavigate, useMatches } from 'react-router-dom';
 import { GameTimer } from '../GameTimer/GameTimer';
 import { SoundButton } from '../SoundButton/SoundButton';
 import { useGame } from '../../contexts/GameContext';
+import menuButton from '../../assets/images/btn-menu.png';
+import returnButton from '../../assets/images/btn-return.png';
 
 interface HeaderProps {
   title?: string;
@@ -35,11 +37,11 @@ export function Header({ title, isMenu }: HeaderProps) {
       <div className="header-left">
         {isMenu ? (
           <button className="header-button" onClick={handleMenu}>
-            <img src="/src/assets/images/btn-menu.png" alt="Menu" />
+            <img src={menuButton} alt="Menu" />
           </button>
         ) : (
           <button className="header-button" onClick={handleReturn}>
-            <img src="/src/assets/images/btn-return.png" alt="Botão de voltar" />
+            <img src={returnButton} alt="Botão de voltar" />
           </button>
         )}
         {title && <h1 className="header-title">{title}</h1>}
