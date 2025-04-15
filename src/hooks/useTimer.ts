@@ -39,6 +39,7 @@ export const useTimer = ({ isComplete }: UseTimerProps) => {
 
   return {
     time,
+    setTime,
     isPaused,
     setIsPaused,
     formatTime

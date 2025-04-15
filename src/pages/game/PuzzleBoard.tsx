@@ -42,7 +42,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     }
   }, [isComplete, pieces.length]);
 
-  const { setIsPaused } = useTimer({
+  const { setIsPaused, setTime } = useTimer({
     isComplete
   });
 
@@ -104,6 +104,10 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     }
     setPieces(initialPieces);
   }, [cols, rows, difficulty]);
+
+  useEffect(() => {
+    return setTime(0);
+  }, [])
 
 
   const getPiecePath = (row: number, col: number) => {
