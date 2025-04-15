@@ -3,9 +3,11 @@ import './styles.css';
 
 export function InitialMenuLayout() {
     return (
-        <div className="container">
-            <div>
-                <Outlet/>
+        <div className="wrapper">
+            <div className="container">
+                <div>
+                    <Outlet/>
+                </div>
             </div>
         </div>
     )

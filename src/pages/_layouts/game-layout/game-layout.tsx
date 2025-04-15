@@ -13,11 +13,13 @@ export function GameLayout() {
     const { title, isMenu = false } = (lastMatch.handle as RouteHandle) || {};
 
     return (
-        <div className="game-container">
-            <Header title={title} isMenu={isMenu} />
+        <div className="wrapper">
+            <div className="game-container">
+                <Header title={title} isMenu={isMenu} />
 
-            <div>
-                <Outlet/>
+                <div>
+                    <Outlet/>
+                </div>
             </div>
         </div>
     )
