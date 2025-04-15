@@ -4,12 +4,26 @@ import { useState } from "react";
 import alimentacao from "../../assets/images/alimentacao.jpg";
 import higiene from "../../assets/images/higiene.jpg";
 import school from "../../assets/images/school.jpg";
+
+import bravo from "../../assets/images/bravo.jpg";
+import dente from "../../assets/images/dente.jpg";
+import feliz from "../../assets/images/feliz.jpg";
+import lavar from "../../assets/images/lavar.jpg";
+import melancia from "../../assets/images/melancia.jpg";
+import salada from "../../assets/images/salada.jpg";
+
 import { Button } from "../Button/Button";
 
 const images = [
   { src: alimentacao, alt: "Alimentação" },
   { src: higiene, alt: "Higiene" },
   { src: school, alt: "Escola" },
+  { src: bravo, alt: "Bravo" },
+  { src: dente, alt: "Dente" },
+  { src: feliz, alt: "Feliz" },
+  { src: lavar, alt: "lavar" },
+  { src: melancia, alt: "melancia" },
+  { src: salada, alt: "salada" },
 ];
 
 interface ModalContentProps {
