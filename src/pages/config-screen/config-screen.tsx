@@ -4,12 +4,18 @@ import "./config-screen.css";
 import { useState } from "react";
 import { Input } from "../../components/Input/Input";
 
-const qtd = [12, 25, 50, 100, 200];
+type Difficulty = 'easy' | 'medium' | 'hard';
+
+const difficulties = [
+  { level: 'easy', label: 'Fácil (6 peças)' },
+  { level: 'medium', label: 'Médio (12 peças)' },
+  { level: 'hard', label: 'Difícil (24 peças)' }
+];
 
 export function ConfigScreen() {
   const { puzzleImage } = useParams();
   const navigate = useNavigate();
-  const [selectedPieces, setSelectedPieces] = useState<number>(12);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('medium');
   const [playerName, setPlayerName] = useState<string>("");
 
   function handleNavigateTo(screen: string) {
@@ -19,7 +25,7 @@ export function ConfigScreen() {
     }
 
     const gameData = {
-      pieces: selectedPieces,
+      difficulty: selectedDifficulty,
       playerName: playerName,
       puzzleImage: puzzleImage
     };
@@ -37,15 +43,15 @@ export function ConfigScreen() {
 
       <div className="container-texts">
         <div>
-          <p>Nº de peças:</p>
+          <p>Nível de dificuldade:</p>
           <div className="pieces-options">
-            {qtd.map((number) => (
+            {difficulties.map(({ level, label }) => (
               <button 
-                key={number} 
-                className={`piece-option ${selectedPieces === number ? 'selected' : ''}`}
-                onClick={() => setSelectedPieces(number)}
+                key={level} 
+                className={`piece-option ${selectedDifficulty === level ? 'selected' : ''}`}
+                onClick={() => setSelectedDifficulty(level as Difficulty)}
               >
-                {number}
+                {label}
               </button>
             ))}
           </div>

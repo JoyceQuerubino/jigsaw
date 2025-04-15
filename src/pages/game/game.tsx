@@ -5,25 +5,20 @@ import PuzzleGame from "./PuzzleBoard";
 
 export function Game() {
   const location = useLocation();
-  const { pieces, playerName, puzzleImage } = location.state;
+  const { difficulty, playerName, puzzleImage } = location.state;
 
   useEffect(() => {
     console.log("Dados recebidos na tela de jogo:", {
-      quantidadeDePecas: pieces,
+      dificuldade: difficulty,
       nomeDoJogador: playerName,
       imagemDoPuzzle: puzzleImage
     });
-  }, [pieces, playerName, puzzleImage]);
-
-  useEffect(() => {
-  
-  }, []);
-  
+  }, [difficulty, playerName, puzzleImage]);
 
   return (
-    <div style={{backgroundColor: 'red'}}>
+    <div>
       <div className="board-container">
-      <PuzzleGame />
+        <PuzzleGame difficulty={difficulty} />
       </div>
     </div>
   );
