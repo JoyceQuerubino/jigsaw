@@ -2,6 +2,7 @@ import "./styles.css";
 import { useNavigate, useMatches } from 'react-router-dom';
 import { GameTimer } from '../GameTimer/GameTimer';
 import { SoundButton } from '../SoundButton/SoundButton';
+import { useGame } from '../../contexts/GameContext';
 
 interface HeaderProps {
   title?: string;
@@ -19,6 +20,7 @@ export function Header({ title, isMenu }: HeaderProps) {
   const matches = useMatches();
   const lastMatch = matches[matches.length - 1];
   const { isGame = false } = (lastMatch.handle as RouteHandle) || {};
+  const { isPuzzleComplete } = useGame();
 
   const handleMenu = () => {
     navigate('/');
@@ -44,7 +46,7 @@ export function Header({ title, isMenu }: HeaderProps) {
       </div>
 
       {isGame && <div className="header-right">
-        <GameTimer isComplete={false} />
+        <GameTimer isComplete={isPuzzleComplete} />
         <SoundButton />
       </div>}
     </header>

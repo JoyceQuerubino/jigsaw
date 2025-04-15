@@ -1,5 +1,5 @@
 //peças como um estado
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import { useGame } from "../../contexts/GameContext";
@@ -23,17 +23,22 @@ interface PuzzleGameProps {
 
 export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   const [pieces, setPieces] = useState<Piece[]>([]);
-  const { puzzleImage: contextImage } = useGame();
+  const { puzzleImage: contextImage, setIsPuzzleComplete } = useGame();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const SNAP_DISTANCE = 25;
-  const PIECE_SIZE = 120; // Diminuí o tamanho das peças
+  
+  // Tamanho total fixo do puzzle (igual ao tamanho usado para 24 peças)
+  const PUZZLE_WIDTH = 720; // Largura total do puzzle (6 peças * 120px)
+  const PUZZLE_HEIGHT = 480; // Altura total do puzzle (4 peças * 120px)
 
-  const isPuzzleComplete = () => {
-    return pieces.every(piece => piece.isPlaced);
-  };
+  const isComplete = useMemo(() => {
+    const complete = pieces.every(piece => piece.isPlaced);
+    setIsPuzzleComplete(complete);
+    return complete;
+  }, [pieces, setIsPuzzleComplete]);
 
   const { time, isPaused, setIsPaused, formatTime } = useTimer({
-    isComplete: isPuzzleComplete()
+    isComplete
   });
 
   useEffect(() => {
@@ -68,6 +73,12 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   };
 
   const { cols, rows } = getPuzzleConfig();
+  
+  // Calcular o tamanho das peças com base no tamanho total do puzzle
+  const PIECE_SIZE = Math.min(
+    PUZZLE_WIDTH / cols,
+    PUZZLE_HEIGHT / rows
+  );
 
   useEffect(() => {
     // Inicializa as peças com posições aleatórias
@@ -197,6 +208,16 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
       <div ref={constraintsRef} style={{ position: "relative", width: 950, height: rows * PIECE_SIZE + 300 }}>
         <svg width={950} height={rows * PIECE_SIZE + 300} style={{ position: "absolute", top: 0, left: 0, padding: 16, border: 1, backgroundColor: 'blue' }}>
+          {/* Imagem de fundo com baixa opacidade */}
+          <image
+            href={contextImage || school}
+            width={cols * PIECE_SIZE}
+            height={rows * PIECE_SIZE}
+            x={16}
+            y={16}
+            opacity={0.6}
+          />
+          
           {/* Grade de linhas guia */}
           <g>
             {Array.from({ length: rows }).map((_, row) => (
@@ -204,8 +225,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
                 <g key={`guide-${row}-${col}`} transform={`translate(${col * PIECE_SIZE + 16}, ${row * PIECE_SIZE + 16})`}>
                   <path
                     d={getPiecePath(row, col)}
-                    fill="rgba(0, 255, 0, 0.2)"
-                    stroke="rgba(0, 255, 0, 0.5)"
+                    fill="rgba(124, 122, 125, 0.2)"
+                    stroke="rgba(124, 122, 125, 0.5)"
                     strokeWidth="2"
                   />
                 </g>

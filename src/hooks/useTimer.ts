@@ -9,6 +9,12 @@ export const useTimer = ({ isComplete }: UseTimerProps) => {
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isComplete) {
+      setIsPaused(true);
+    }
+  }, [isComplete]);
+
+  useEffect(() => {
     let interval: NodeJS.Timeout;
 
     if (!isPaused && !isComplete) {

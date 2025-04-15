@@ -4,7 +4,9 @@ interface GameContextData {
   difficulty: 'easy' | 'medium' | 'hard';
   playerName: string;
   puzzleImage: string;
+  isPuzzleComplete: boolean;
   setGameData: (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string }) => void;
+  setIsPuzzleComplete: (isComplete: boolean) => void;
 }
 
 const GameContext = createContext<GameContextData>({} as GameContextData);
@@ -19,13 +21,19 @@ export function GameProvider({ children }: GameProviderProps) {
     playerName: '',
     puzzleImage: ''
   });
+  const [isPuzzleComplete, setIsPuzzleComplete] = useState(false);
 
   const handleSetGameData = (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string }) => {
     setGameData(data);
   };
 
   return (
-    <GameContext.Provider value={{ ...gameData, setGameData: handleSetGameData }}>
+    <GameContext.Provider value={{ 
+      ...gameData, 
+      isPuzzleComplete,
+      setGameData: handleSetGameData,
+      setIsPuzzleComplete
+    }}>
       {children}
     </GameContext.Provider>
   );
