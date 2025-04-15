@@ -31,8 +31,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   const SNAP_DISTANCE = 25;
 
   // Tamanho total fixo do puzzle (igual ao tamanho usado para 24 peças)
-  const PUZZLE_WIDTH = 720; // Largura total do puzzle (6 peças * 120px)
-  const PUZZLE_HEIGHT = 480; // Altura total do puzzle (4 peças * 120px)
+  const PUZZLE_WIDTH = 540; // Largura total do puzzle (6 peças * 90px)
+  const PUZZLE_HEIGHT = 360; // Altura total do puzzle (4 peças * 90px)
 
   const queryClient = useQueryClient();
   
@@ -247,8 +247,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
       position: 'relative',
       padding: '0 20px'
     }}>
-      <div ref={constraintsRef} style={{ position: "relative", width: 950, height: rows * PIECE_SIZE + 300 }}>
-        <svg width={950} height={rows * PIECE_SIZE + 300} style={{ 
+      <div ref={constraintsRef} style={{ position: "relative", width: 770, height: rows * PIECE_SIZE + 300 }}>
+        <svg width={770} height={rows * PIECE_SIZE + 300} style={{ 
           position: "absolute", 
           top: 0, 
           left: 0, 
