@@ -207,7 +207,16 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
       <div ref={constraintsRef} style={{ position: "relative", width: 950, height: rows * PIECE_SIZE + 300 }}>
-        <svg width={950} height={rows * PIECE_SIZE + 300} style={{ position: "absolute", top: 0, left: 0, padding: 16, border: 1, backgroundColor: 'blue' }}>
+        <svg width={950} height={rows * PIECE_SIZE + 300} style={{ 
+          position: "absolute", 
+          top: 0, 
+          left: 0, 
+          padding: 16, 
+          border: "8px solid #007EB8", 
+          borderRadius: "24px",
+          backgroundColor: '#abd8ed',
+          boxShadow: "0 4px 8px rgba(0, 126, 184, 0.5)"
+        }}>
           {/* Imagem de fundo com baixa opacidade */}
           <image
             href={contextImage || school}
@@ -225,9 +234,9 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
                 <g key={`guide-${row}-${col}`} transform={`translate(${col * PIECE_SIZE + 16}, ${row * PIECE_SIZE + 16})`}>
                   <path
                     d={getPiecePath(row, col)}
-                    fill="rgba(124, 122, 125, 0.2)"
-                    stroke="rgba(124, 122, 125, 0.5)"
-                    strokeWidth="2"
+                    fill="rgba(124, 122, 125, 0.3)"
+                    stroke="rgba(80, 78, 81, 0.7)"
+                    strokeWidth="4"
                   />
                 </g>
               ))

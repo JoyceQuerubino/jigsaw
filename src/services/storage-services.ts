@@ -30,12 +30,6 @@ export function addGame(newGame: GameType) {
   StorageService.saveGames(updatedGames);
 }
 
-//Exemplo de uso
-// StorageService.addGame({
-//     title: 'Basketball',
-//     image: '/assets/basketball.png'
-//   });
-
 export function editGameById({ id, updatedGameData }: EditGameProps) {
   const currentGames = StorageService.getGames();
 
@@ -46,12 +40,6 @@ export function editGameById({ id, updatedGameData }: EditGameProps) {
   StorageService.saveGames(updatedGames);
 }
 
-//Exemplo de uso
-// editGameById({
-//     id: "123",
-//     updatedGameData: { title: "Football" }
-//   });
-
 export function deleteGameById(id: string) {
   const currentGames = StorageService.getGames();
 
@@ -60,10 +48,7 @@ export function deleteGameById(id: string) {
   StorageService.saveGames(updatedGames);
 }
 
-//exemplo
-//StorageService.deleteGameById('e8f4b2a0-3f76-4d09-8f9b-7637f0c3e2b4');
 
-//Para o react.js já ler
 export function getGamesReady() {
     try {
       const games = JSON.parse(localStorage.getItem("games"));
