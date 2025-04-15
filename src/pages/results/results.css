@@ -60,3 +60,44 @@
   font-weight: 800;
   margin-bottom: 16px;
 }
+
+.pagination-info {
+  text-align: center;
+  margin-top: 20px;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.results-columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+.results-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.results-column h3 {
+  color: white;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.results-column p {
+  color: white;
+  font-size: 20px;
+  margin: 8px 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}

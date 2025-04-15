@@ -4,6 +4,9 @@ import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import { useGame } from "../../contexts/GameContext";
 import { useTimer } from "../../hooks/useTimer";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
+import { addUserResult } from "../../services/user-results-service";
 
 interface Piece {
   row: number;
@@ -22,13 +25,30 @@ interface PuzzleGameProps {
 
 export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   const [pieces, setPieces] = useState<Piece[]>([]);
-  const { puzzleImage: contextImage, setIsPuzzleComplete, title } = useGame();
+  const { puzzleImage: contextImage, setIsPuzzleComplete, title, playerName } = useGame();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const SNAP_DISTANCE = 25;
-  
+
   // Tamanho total fixo do puzzle (igual ao tamanho usado para 24 peças)
   const PUZZLE_WIDTH = 720; // Largura total do puzzle (6 peças * 120px)
   const PUZZLE_HEIGHT = 480; // Altura total do puzzle (4 peças * 120px)
+
+  const queryClient = useQueryClient();
+  
+  const { mutateAsync: saveResult } = useMutation({
+    mutationFn: async () => {
+      console.log("OPA", time);
+
+      return addUserResult({
+        username: playerName,
+        gameTitile: title,
+        time: formatTime(time)
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [reactQueryConsts.LIST_USER_RESULTS] });
+    }
+  });
 
   const isComplete = useMemo(() => {
     const complete = pieces.every(piece => piece.isPlaced);
@@ -36,15 +56,16 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     return complete;
   }, [pieces, setIsPuzzleComplete]);
 
+  const { setIsPaused, setTime, formatTime, time } = useTimer({
+    isComplete
+  });
+
   useEffect(() => {
     if (isComplete && pieces.length > 0) {
       alert('Parabéns! Você completou o puzzle!');
+      saveResult();
     }
-  }, [isComplete, pieces.length]);
-
-  const { setIsPaused, setTime } = useTimer({
-    isComplete
-  });
+  }, [isComplete, pieces.length, saveResult]);
 
   useEffect(() => {
     const img = new Image();
@@ -105,9 +126,12 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     setPieces(initialPieces);
   }, [cols, rows, difficulty]);
 
+  
   useEffect(() => {
-    return setTime(0);
-  }, [])
+    return () => {
+      setTime(0);
+    };
+  }, []);
 
 
   const getPiecePath = (row: number, col: number) => {
