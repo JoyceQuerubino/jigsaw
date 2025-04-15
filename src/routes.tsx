@@ -9,7 +9,7 @@ import { InitialMenuLayout } from "./pages/_layouts/initial-menu-layout/initial-
 import { MyGames } from "./pages/my-games/my-games";
 import { NewGame } from "./pages/new-game/new-game";
 import { Tutorial } from "./pages/tutorial/tutorial";
-
+import { Credits } from "./pages/credits/credits";
 
 export const router = createBrowserRouter([
     {   
@@ -81,6 +81,14 @@ export const router = createBrowserRouter([
             { 
                 path: '/tutoriais', 
                 element: <Tutorial/>,
+                handle: {
+                    isMenu: true
+                }
+                
+            },
+            { 
+                path: '/credits', 
+                element: <Credits/>,
                 handle: {
                     isMenu: true
                 }
