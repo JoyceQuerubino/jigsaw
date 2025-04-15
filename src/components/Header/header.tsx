@@ -2,7 +2,7 @@ import "./styles.css";
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   isMenu?: boolean;
 }
 
@@ -29,7 +29,7 @@ export function Header({ title, isMenu }: HeaderProps) {
         </button>
       )}
 
-      <h1 className="header-title">{title}</h1>
+      {title && <h1 className="header-title">{title}</h1>}
     </header>
   );
 }

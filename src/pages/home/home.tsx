@@ -29,7 +29,7 @@ export function Home() {
             <img src={btnResultados} alt="Resultados" />
           </button>
           <button className="menu-button">
-            <img src={btnTutorial} alt="Tutorial" />
+            <img src={btnTutorial} alt="Tutorial" onClick={() => handleNavigateTo('/tutoriais')}/> 
           </button>
           <button className="menu-button">
             <img src={btnCreditos} alt="Créditos" />

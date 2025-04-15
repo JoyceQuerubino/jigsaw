@@ -8,6 +8,7 @@ import { ConfigScreen } from "./pages/config-screen/config-screen";
 import { InitialMenuLayout } from "./pages/_layouts/initial-menu-layout/initial-menu-layout";
 import { MyGames } from "./pages/my-games/my-games";
 import { NewGame } from "./pages/new-game/new-game";
+import { Tutorial } from "./pages/tutorial/tutorial";
 
 
 export const router = createBrowserRouter([
@@ -74,6 +75,14 @@ export const router = createBrowserRouter([
                 element: <NewGame/>,
                 handle: {
                     title: "Novo Jogo",
+                }
+                
+            }, 
+            { 
+                path: '/tutoriais', 
+                element: <Tutorial/>,
+                handle: {
+                    isMenu: true
                 }
                 
             }
