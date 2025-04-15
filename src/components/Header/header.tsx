@@ -1,6 +1,7 @@
 import "./styles.css";
 import { useNavigate, useMatches } from 'react-router-dom';
 import { GameTimer } from '../GameTimer/GameTimer';
+import { SoundButton } from '../SoundButton/SoundButton';
 
 interface HeaderProps {
   title?: string;
@@ -44,6 +45,7 @@ export function Header({ title, isMenu }: HeaderProps) {
 
       {isGame && <div className="header-right">
         <GameTimer isComplete={false} />
+        <SoundButton />
       </div>}
     </header>
   );
