@@ -58,7 +58,8 @@ export const router = createBrowserRouter([
                 element: <Game/>,
                 handle: {
                     title: "Game",
-                    isMenu: false
+                    isMenu: false,
+                    isGame: true
                 }
                 
             }, 

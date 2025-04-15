@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import { useGame } from "../../contexts/GameContext";
+import { useTimer } from "../../hooks/useTimer";
+import { TimerControlButton } from '../../components/TimerControlButton';
 
 interface Piece {
   row: number;
@@ -22,10 +24,17 @@ interface PuzzleGameProps {
 export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   const [pieces, setPieces] = useState<Piece[]>([]);
   const { puzzleImage: contextImage } = useGame();
-
   const constraintsRef = useRef<HTMLDivElement>(null);
   const SNAP_DISTANCE = 25;
   const PIECE_SIZE = 120; // Diminuí o tamanho das peças
+
+  const isPuzzleComplete = () => {
+    return pieces.every(piece => piece.isPlaced);
+  };
+
+  const { time, isPaused, setIsPaused, formatTime } = useTimer({
+    isComplete: isPuzzleComplete()
+  });
 
   useEffect(() => {
     const img = new Image();
@@ -170,9 +179,17 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
         }
       }
 
-      return prevPieces.map(p =>
+      const updatedPieces = prevPieces.map(p =>
         p.id === pieceId ? { ...p, x: newX, y: newY, isPlaced } : p
       );
+
+      // Verifica se o puzzle foi completado após a atualização
+      const isComplete = updatedPieces.every(piece => piece.isPlaced);
+      if (isComplete) {
+        setIsPaused(true);
+      }
+
+      return updatedPieces;
     });
   };
 

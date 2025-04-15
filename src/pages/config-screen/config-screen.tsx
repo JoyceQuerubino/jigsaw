@@ -45,7 +45,7 @@ export function ConfigScreen() {
 
       <div className="container-texts">
         <div>
-          <p>Nível de dificuldade:</p>
+          <p>Número de peças:</p>
           <div className="pieces-options">
             {difficulties.map(({ level, label }) => (
               <button 
@@ -59,7 +59,6 @@ export function ConfigScreen() {
           </div>
         </div>
 
-        <p>Montado:</p>
         <div className="container-player">
           <Input
             label="Jogador:"

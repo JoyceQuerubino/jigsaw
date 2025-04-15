@@ -2,17 +2,17 @@ import { useEffect } from "react";
 import "./game.css";
 import PuzzleGame from "./PuzzleBoard";
 import { useGame } from "../../contexts/GameContext";
+import { useNavigate } from "react-router-dom";
 
 export function Game() {
   const { difficulty, playerName, puzzleImage } = useGame();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Dados recebidos na tela de jogo:", {
-      dificuldade: difficulty,
-      nomeDoJogador: playerName,
-      imagemDoPuzzle: puzzleImage
-    });
-  }, [difficulty, playerName, puzzleImage]);
+    if (!puzzleImage) {
+      navigate('/model');
+    }
+  }, [puzzleImage, navigate]);
 
   return (
     <div>
