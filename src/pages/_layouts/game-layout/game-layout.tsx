@@ -16,8 +16,7 @@ export function GameLayout() {
         <div className="wrapper">
             <div className="game-container">
                 <Header title={title} isMenu={isMenu} />
-
-                <div>
+                <div className="content-container">
                     <Outlet/>
                 </div>
             </div>

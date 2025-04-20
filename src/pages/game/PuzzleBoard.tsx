@@ -20,6 +20,8 @@ interface Piece {
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
+const WITH_DISTANCE = 1080;
+
 interface PuzzleGameProps {
   difficulty: Difficulty;
 }
@@ -182,7 +184,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
       let isPlaced = false;
 
       // Limita o movimento dentro do quadrado azul considerando o padding
-      newX = Math.max(16, Math.min(newX, 770 - PIECE_SIZE - 32));
+      newX = Math.max(16, Math.min(newX, WITH_DISTANCE - PIECE_SIZE - 32));
       newY = Math.max(16, Math.min(newY, (rows * PIECE_SIZE + 300) - PIECE_SIZE - 32));
 
       // Verifica a posição correta primeiro
@@ -244,11 +246,13 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
       justifyContent: 'space-between', 
       alignItems: 'center', 
       width: '100%', 
-      position: 'relative',
-      padding: '0 20px'
+      height: '100%',
+      padding: '0 20px',
+      flex: 1,
+      minHeight: 0
     }}>
-      <div ref={constraintsRef} style={{ position: "relative", width: 770, height: rows * PIECE_SIZE + 300 }}>
-        <svg width={770} height={rows * PIECE_SIZE + 300} style={{ 
+      <div ref={constraintsRef} style={{ position: "relative", width: WITH_DISTANCE, height: rows * PIECE_SIZE + 300 }}>
+        <svg width={WITH_DISTANCE} height={rows * PIECE_SIZE + 300} style={{ 
           position: "absolute", 
           top: 0, 
           left: 0, 
@@ -291,7 +295,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
               dragMomentum={false}
               dragConstraints={{
                 left: 16,
-                right: 770 - PIECE_SIZE - 32,
+                right: WITH_DISTANCE - PIECE_SIZE - 32,
                 top: 16,
                 bottom: (rows * PIECE_SIZE + 300) - PIECE_SIZE - 32
               }}

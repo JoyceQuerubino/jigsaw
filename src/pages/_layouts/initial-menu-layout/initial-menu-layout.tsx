@@ -3,7 +3,7 @@ import './styles.css';
 
 export function InitialMenuLayout() {
     return (
-        <div className="wrapper">
+        <div className="wrapperHome">
             <div className="container">
                 <div>
                     <Outlet/>

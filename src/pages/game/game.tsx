@@ -10,15 +10,13 @@ export function Game() {
 
   useEffect(() => {
     if (!puzzleImage) {
-      navigate('/model');
+      navigate("/model");
     }
   }, [puzzleImage, navigate]);
 
   return (
-    <div>
-      <div className="board-container">
-        <PuzzleGame difficulty={difficulty} />
-      </div>
+    <div className="board-container">
+      <PuzzleGame difficulty={difficulty} />
     </div>
   );
 }
