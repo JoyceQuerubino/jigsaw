@@ -32,7 +32,7 @@ export function Credits() {
 
               <div className="credits-content-items">
                 <h3>Desenvolvimento</h3>
-                <p>Dra. Regina Célia Coelho</p>
+                <p>Joyce Querubino de Oliveira</p>
               </div>
 
               <div className="credits-content-items">

@@ -1,10 +1,9 @@
 //peças como um estado
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import guaxinimImage from "../../assets/images/guaxinim.png";
 import { useGame } from "../../contexts/GameContext";
-import { useTimer } from "../../hooks/useTimer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
 import { addUserResult } from "../../services/user-results-service";
@@ -28,20 +27,19 @@ interface PuzzleGameProps {
 
 export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   const [pieces, setPieces] = useState<Piece[]>([]);
-  const { puzzleImage: contextImage, setIsPuzzleComplete, title, playerName } = useGame();
+  const [completed, setCompleted] = useState(false);
+  const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime } = useGame();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const SNAP_DISTANCE = 25;
 
   // Tamanho total fixo do puzzle (igual ao tamanho usado para 24 peças)
-  const PUZZLE_WIDTH = 540; // Largura total do puzzle (6 peças * 90px)
-  const PUZZLE_HEIGHT = 360; // Altura total do puzzle (4 peças * 90px)
+  const PUZZLE_WIDTH = 580; // Largura total do puzzle (6 peças * 90px)
+  const PUZZLE_HEIGHT = 400; // Altura total do puzzle (4 peças * 90px)
 
   const queryClient = useQueryClient();
-  
+
   const { mutateAsync: saveResult } = useMutation({
     mutationFn: async () => {
-      console.log("OPA", time);
-
       return addUserResult({
         username: playerName,
         gameTitile: title,
@@ -53,27 +51,24 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     }
   });
 
-  const isComplete = useMemo(() => {
-    const complete = pieces.every(piece => piece.isPlaced);
-    setIsPuzzleComplete(complete);
-    return complete;
-  }, [pieces, setIsPuzzleComplete]);
-
-  const { setIsPaused, setTime, formatTime, time } = useTimer({
-    isComplete
-  });
-
   useEffect(() => {
-    if (isComplete && pieces.length > 0) {
+    if (completed && pieces.length > 0) {
       alert('Parabéns! Você completou o puzzle!');
       saveResult();
     }
-  }, [isComplete, pieces.length, saveResult]);
+  }, [completed, pieces.length]);
 
   useEffect(() => {
     const img = new Image();
     img.src = contextImage || school;
   }, [contextImage]);
+
+  useEffect(() => {
+    return () => {
+      setTime(0);
+      setIsPaused(false);
+    };
+  }, []);
 
   // Configuração de peças baseada na dificuldade
   const getPuzzleConfig = () => {
@@ -130,11 +125,11 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
   }, [cols, rows, difficulty]);
 
   
-  useEffect(() => {
-    return () => {
-      setTime(0);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     setTime(0);
+  //   };
+  // }, []);
 
 
   const getPiecePath = (row: number, col: number) => {
@@ -185,7 +180,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
 
       // Limita o movimento dentro do quadrado azul considerando o padding
       newX = Math.max(16, Math.min(newX, WITH_DISTANCE - PIECE_SIZE - 32));
-      newY = Math.max(16, Math.min(newY, (rows * PIECE_SIZE + 300) - PIECE_SIZE - 32));
+      newY = Math.max(16, Math.min(newY, (rows * PIECE_SIZE + 260) - PIECE_SIZE - 32));
 
       // Verifica a posição correta primeiro
       const correctX = draggedPiece.col * PIECE_SIZE + 16;
@@ -233,6 +228,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
       // Verifica se o puzzle foi completado após a atualização
       const isComplete = updatedPieces.every(piece => piece.isPlaced);
       if (isComplete) {
+        setCompleted(true);
         setIsPaused(true);
       }
 
@@ -251,8 +247,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
       flex: 1,
       minHeight: 0
     }}>
-      <div ref={constraintsRef} style={{ position: "relative", width: WITH_DISTANCE, height: rows * PIECE_SIZE + 300 }}>
-        <svg width={WITH_DISTANCE} height={rows * PIECE_SIZE + 300} style={{ 
+      <div ref={constraintsRef} style={{ position: "relative", width: WITH_DISTANCE, height: rows * PIECE_SIZE + 260 }}>
+        <svg width={WITH_DISTANCE} height={rows * PIECE_SIZE + 260} style={{ 
           position: "absolute", 
           top: 0, 
           left: 0, 
@@ -297,7 +293,7 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
                 left: 16,
                 right: WITH_DISTANCE - PIECE_SIZE - 32,
                 top: 16,
-                bottom: (rows * PIECE_SIZE + 300) - PIECE_SIZE - 32
+                bottom: (rows * PIECE_SIZE + 260) - PIECE_SIZE - 32
               }}
               dragElastic={0}
               onDragEnd={(_, info) => handleDragEnd(piece.id, info)}

@@ -34,17 +34,17 @@ export const tutorialData: TutorialType[] = [
   },
   {
     id: 1,
-    title: "Como aplicar jogos/atividades?",
+    title: "Como aplicar atividades?",
     text: "Utilize os modelos de atividades prontas (em Jogar) ou desenvolva suas próprias atividades (em Meus Jogos).",
   },
   {
     id: 2,
-    title: "Como criar jogos/atividades?",
+    title: "Como criar atividades?",
     text: 'Entre em "Meus Jogos", por padrão, será selecionado o formato de quebra-cabeças. Em seguida, clique em "Novo Jogo", para que possa nomear e inserir a imagem da atividade de quebra-cabeças.',
   },
   {
     id: 3,
-    title: "Como editar meus jogos/atividades?",
+    title: "Como editar meus atividades?",
     text: 'Entre em "Meus Jogos", por padrão, será selecionado o formato de quebra-cabeças. Em seguida, clique no jogo que deseja editar, assim poderá mudar o seu nome e imagem.',
   },
   {

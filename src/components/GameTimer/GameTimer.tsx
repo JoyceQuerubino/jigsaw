@@ -1,16 +1,14 @@
 import React from 'react';
-import { useTimer } from '../../hooks/useTimer';
 import { TimerControlButton } from '../TimerControlButton';
+import { useGame } from '../../contexts/GameContext';
 import './styles.css';
 
 interface GameTimerProps {
   isComplete: boolean;
 }
 
-export const GameTimer: React.FC<GameTimerProps> = ({ isComplete }) => {
-  const { time, isPaused, setIsPaused, formatTime } = useTimer({
-    isComplete
-  });
+export const GameTimer: React.FC<GameTimerProps> = () => {
+  const { time, isPaused, setIsPaused, formatTime } = useGame();
 
   return (
     <div className="game-timer-container">
