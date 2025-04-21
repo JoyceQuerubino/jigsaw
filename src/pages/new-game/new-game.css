@@ -33,12 +33,20 @@
   text-align: left;
 }
 
+.new-game-second-wrapper {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .new-game-second-container {
   display: flex;
-  width: 40%;
+  width: 100%;
+  height: 516px;
   gap: 1rem;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
   padding: 24px;
 }
 

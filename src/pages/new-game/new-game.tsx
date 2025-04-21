@@ -114,47 +114,49 @@ export function NewGame() {
         </div>
       </div>
 
-      <div className="new-game-second-container">
-        <div className="new-game-second-top">
-          <Input
-            label="Tema:"
-            placeholder="Digite o tema"
-            value={theme}
-            onChange={setTheme}
-          />
+      <div className="new-game-second-wrapper">
+        <div className="new-game-second-container">
+          <div className="new-game-second-top">
+            <Input
+              label="Tema:"
+              placeholder="Digite o tema"
+              value={theme}
+              onChange={setTheme}
+            />
+
+            <div>
+              <Button
+                text={selectedImage ? "Trocar Imagem" : "Selecionar Imagem"}
+                onClick={() => setIsModalOpen(true)}
+                imageWidth="268px"
+                imageHeight="62px"
+              />
+            </div>
+          </div>
 
           <div>
-            <Button
-              text={selectedImage ? "Trocar Imagem" : "Selecionar Imagem"}
-              onClick={() => setIsModalOpen(true)}
-              imageWidth="268px"
-              imageHeight="62px"
-            />
-          </div>
-        </div>
-
-        <div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <Button
-              text={editingGameId ? "Salvar Alterações" : "Salvar"}
-              onClick={handleNavigateTo}
-              imageWidth="268px"
-              imageHeight="68px"
-            />
-            {editingGameId && (
+            <div style={{ display: 'flex', gap: '1rem' }}>
               <Button
-                text="Excluir"
-                onClick={async () => {
-                  const confirmDelete = window.confirm("Tem certeza que deseja excluir este jogo?");
-                  if (confirmDelete && editingGameId) {
-                    await deleteGameFn(editingGameId);
-                  }
-                }}
-                imageWidth="164px"
+                text={editingGameId ? "Salvar Alterações" : "Salvar"}
+                onClick={handleNavigateTo}
+                imageWidth="268px"
                 imageHeight="68px"
-                variant="red"
               />
-            )}
+              {editingGameId && (
+                <Button
+                  text="Excluir"
+                  onClick={async () => {
+                    const confirmDelete = window.confirm("Tem certeza que deseja excluir este jogo?");
+                    if (confirmDelete && editingGameId) {
+                      await deleteGameFn(editingGameId);
+                    }
+                  }}
+                  imageWidth="164px"
+                  imageHeight="68px"
+                  variant="red"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
