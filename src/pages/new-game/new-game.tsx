@@ -135,7 +135,7 @@ export function NewGame() {
           </div>
 
           <div>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem',   marginTop: 48, justifyContent: "center" }}>
               <Button
                 text={editingGameId ? "Salvar Alterações" : "Salvar"}
                 onClick={handleNavigateTo}
