@@ -23,9 +23,10 @@ const WITH_DISTANCE = 1080;
 
 interface PuzzleGameProps {
   difficulty: Difficulty;
+  setIsModalSucessOpen: (value: boolean) => void;
 }
 
-export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
+export default function PuzzleGame({ difficulty, setIsModalSucessOpen }: PuzzleGameProps) {
   const [pieces, setPieces] = useState<Piece[]>([]);
   const [completed, setCompleted] = useState(false);
   const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime } = useGame();
@@ -53,8 +54,8 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
 
   useEffect(() => {
     if (completed && pieces.length > 0) {
-      alert('Parabéns! Você completou o puzzle!');
       saveResult();
+      setIsModalSucessOpen(true)
     }
   }, [completed, pieces.length]);
 
@@ -123,14 +124,6 @@ export default function PuzzleGame({ difficulty }: PuzzleGameProps) {
     }
     setPieces(initialPieces);
   }, [cols, rows, difficulty]);
-
-  
-  // useEffect(() => {
-  //   return () => {
-  //     setTime(0);
-  //   };
-  // }, []);
-
 
   const getPiecePath = (row: number, col: number) => {
     const right = col < cols - 1 ? "out" : "flat";

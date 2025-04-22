@@ -7,24 +7,16 @@ type TutorialType = {
 
 const listTips = [
   "1. Defina objetivos e metas centradas no usuário, ao seu perfil e cotidiano.",
-  "2. Utilize cores contrastantes e preferidas, com fundo claro ou branco.",
-  "3. Utilize linguagem visual e textual clara, simples e com símbolos familiares.",
+  "2. Utilize cores claras e contrastantes, preferidas pelo usuário, sem usá-las como único meio de comunicação.",
+  "3. Use linguagem visual e textual simples, clara e com símbolos familiares, evitando jargões, metáforas e ambiguidades.",
   "4. Utilize elementos reconhecíveis e cotidianos.",
-  "5. Foque na tarefa e evite distrações.",
-  "6. Ofereça instruções claras e suporte contínuo, com reforços positivos.",
+  "5. Foque na tarefa e evite distrações que possam sobrecarregar o usuário.",
+  "6. Ofereça instruções claras e suporte contínuo, com reforços positivos e sem feedbacks negativos em caso de erro.",
   "7. Permita tentativas antes de mostrar a resposta correta.",
-  "8. Deixe o controle de tempo nas mãos do usuário, sem expiração automática.",
-  "9. Monitore e avalie o progresso do usuário com feedbacks claros.",
+  "8. Deixe o controle do tempo nas mãos do usuário.",
+  "9. Monitore e avalie o progresso do usuário com feedbacks.",
   "10. Inclua personagens virtuais para facilitar o aprendizado e promover empatia.",
 ];
-
-const warninglist = [
-    "1. Não utilize apenas cores como recurso de comunicação.",
-    "2. Evite jargões, metáforas ou expressões ambíguas.",
-    "3. Não sobrecarregue o usuário com elementos distrativos.",
-    "4. Não exiba feedbacks negativos quando o usuário cometer erros.",
-    "5. Evite limitar o tempo nas tarefas."
-]
 
 export const tutorialData: TutorialType[] = [
   {
@@ -51,11 +43,5 @@ export const tutorialData: TutorialType[] = [
     id: 4,
     title: "Como criar atividades para autistas?",
     list: listTips,
-  },
-  {
-    id: 5,
-    title: "Como criar atividades para autistas?",
-    text: "Tenha cuidado:",
-    list: warninglist,
   },
 ];
