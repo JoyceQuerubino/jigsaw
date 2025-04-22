@@ -1,5 +1,5 @@
 //peças como um estado
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { motion, PanInfo } from "framer-motion";
 import school from "../../assets/images/school.jpg";
 import guaxinimImage from "../../assets/images/guaxinim.png";
@@ -24,9 +24,14 @@ const WITH_DISTANCE = 1080;
 interface PuzzleGameProps {
   difficulty: Difficulty;
   setIsModalSucessOpen: (value: boolean) => void;
+  onReset?: () => void;
 }
 
-export default function PuzzleGame({ difficulty, setIsModalSucessOpen }: PuzzleGameProps) {
+export interface PuzzleGameRef {
+  resetGame: () => void;
+}
+
+const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, setIsModalSucessOpen, onReset }, ref) => {
   const [pieces, setPieces] = useState<Piece[]>([]);
   const [completed, setCompleted] = useState(false);
   const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime } = useGame();
@@ -70,6 +75,10 @@ export default function PuzzleGame({ difficulty, setIsModalSucessOpen }: PuzzleG
       setIsPaused(false);
     };
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    resetGame
+  }));
 
   // Configuração de peças baseada na dificuldade
   const getPuzzleConfig = () => {
@@ -229,6 +238,27 @@ export default function PuzzleGame({ difficulty, setIsModalSucessOpen }: PuzzleG
     });
   };
 
+  const resetGame = () => {
+    setCompleted(false);
+    const initialPieces: Piece[] = [];
+    const areaGuia = (rows * PIECE_SIZE) + 32;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        initialPieces.push({
+          row,
+          col,
+          x: Math.random() * (850 - PIECE_SIZE) + 16,
+          y: areaGuia + Math.random() * (200 - PIECE_SIZE),
+          id: row * cols + col,
+          isPlaced: false,
+        });
+      }
+    }
+    setPieces(initialPieces);
+    if (onReset) onReset();
+  };
+
   return (
     <div style={{ 
       display: 'flex', 
@@ -323,5 +353,8 @@ export default function PuzzleGame({ difficulty, setIsModalSucessOpen }: PuzzleG
       />
     </div>
   );
-}
+});
+
+const PuzzleGameComponent = PuzzleGame;
+export default PuzzleGameComponent;
 

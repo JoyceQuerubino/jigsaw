@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./game.css";
 import PuzzleGame from "./PuzzleBoard";
 import { useGame } from "../../contexts/GameContext";
@@ -7,12 +7,22 @@ import { PauseModal } from "../../components/PauseModal/PauseModal";
 import { SuccessModal } from "../../components/SuccessModal/SuccessModal";
 
 export function Game() {
-  const { difficulty, puzzleImage } = useGame();
+  const { difficulty, puzzleImage, setTime, setIsPaused } = useGame();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSucessOpen, setIsModalSucessOpen] = useState(false);
+  const puzzleRef = useRef<{ resetGame: () => void }>(null);
 
   const navigate = useNavigate();
-  const { isPaused, setIsPaused } = useGame();
+  const { isPaused } = useGame();
+
+  const handleReset = () => {
+    setTime(0);
+    setIsPaused(false);
+    setIsModalOpen(false);
+    if (puzzleRef.current) {
+      puzzleRef.current.resetGame();
+    }
+  };
 
   useEffect(() => {
     if (isPaused && !isModalSucessOpen) {
@@ -38,13 +48,19 @@ export function Game() {
 
   return (
     <div className="board-container">
-      <PuzzleGame difficulty={difficulty} setIsModalSucessOpen={setIsModalSucessOpen} />
+      <PuzzleGame 
+        ref={puzzleRef}
+        difficulty={difficulty} 
+        setIsModalSucessOpen={setIsModalSucessOpen} 
+        onReset={handleReset}
+      />
 
       {!isModalSucessOpen && (
         <PauseModal
           isOpen={isModalOpen}
           onClose={handleOnCloseStartTime}
           setIsPaused={setIsPaused}
+          onReset={handleReset}
         />
       )}
 

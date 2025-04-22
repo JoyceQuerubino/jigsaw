@@ -7,9 +7,10 @@ interface PauseModalProps {
   isOpen: boolean;
   onClose: () => void;
   setIsPaused: (value: boolean) => void;
+  onReset: () => void;
 }
 
-export function PauseModal({ isOpen, onClose, setIsPaused }: PauseModalProps) {
+export function PauseModal({ isOpen, onClose, setIsPaused, onReset }: PauseModalProps) {
   const navigate = useNavigate();
   const handleButton1Click = () => {
     onClose();
@@ -17,7 +18,7 @@ export function PauseModal({ isOpen, onClose, setIsPaused }: PauseModalProps) {
   };
 
   const handleButton2Click = () => {
-    console.log("Botão 2 clicado");
+    onReset();
   };
 
   const handleButton3Click = () => {
