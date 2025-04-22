@@ -1,7 +1,9 @@
 import * as Dialog from '@radix-ui/react-dialog';
+import { useNavigate } from 'react-router';
+import Lottie from "lottie-react";
 import "./SuccessModal.css";
 import { Button } from "../Button/Button";
-import { useNavigate } from 'react-router';
+import animationImage from "../../assets/trofeu-animation.json";
 
 interface PauseModalProps {
   isOpen: boolean;
@@ -22,12 +24,17 @@ export function SuccessModal({ isOpen, onClose }: PauseModalProps) {
         <Dialog.Content className="sucess-modal-content">
           <Dialog.Close className="sucess-modal-close-button" aria-label="Fechar" />
           <div className="sucess-modal-buttons">
+          <div className="animation-lottie">
+            <Lottie animationData={animationImage} loop={false} />
+          </div>
+          <div className="sucess-buttom-container">
             <Button
               text="Resultados"
               onClick={handleButtonClick}
               imageWidth="280px"
               imageHeight="70px"
             />
+             </div>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

@@ -48,6 +48,16 @@
   z-index: 1;
 }
 
+.animation-lottie {
+  width: 300px;
+  height: 300px;
+  margin-top: -60px;
+}
+
+.sucess-buttom-container{
+  margin-top: -50px;
+}
+
 @keyframes overlayShow {
   from {
     opacity: 0;
