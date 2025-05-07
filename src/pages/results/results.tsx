@@ -6,7 +6,7 @@ import { useGetUserResults } from "../../hooks/useGetUserResults";
 
 export function Results() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 4;
 
   const { data } = useGetUserResults();
 
