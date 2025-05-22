@@ -1,5 +1,4 @@
 import "./styles.css";
-import boxMenuImage from "../../assets/images/menu/box-menu.png";
 import btnJogar from "../../assets/images/menu/btn-jogar.png";
 import btnMeusJogos from "../../assets/images/menu/btn-meus-jogos.png";
 import btnResultados from "../../assets/images/menu/btn-resultados.png";
@@ -18,7 +17,6 @@ export function Home() {
   return (
     <div className="box-container">
       <div className="menu-container">
-        <img src={boxMenuImage} alt="Menu Box" className="menu-image" />
         <div className="buttons-list">
           <button
             className="menu-button"
