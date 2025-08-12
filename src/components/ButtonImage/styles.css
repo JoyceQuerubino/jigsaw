@@ -1,0 +1,66 @@
+.button-image {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  position: relative;
+  
+  /* Large web size (default) */
+  width: 288px;
+  height: 80px;
+}
+
+.button-image:hover {
+  transform: scale(1.05);
+}
+
+.button-text {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  z-index: 1;
+  /* Large web text size (default) */
+  font-size: 24px;
+}
+
+/* Medium web breakpoint */
+@media (max-width: 1024px) {
+  .button-image {
+    width: 144px;
+    height: 40px;
+  }
+  
+  .button-text {
+    font-size: 18px;
+  }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+  .button-image {
+    width: 120px;
+    height: 35px;
+  }
+  
+  .button-text {
+    font-size: 14px;
+  }
+}
+
+/* Small mobile breakpoint */
+@media (max-width: 480px) {
+  .button-image {
+    width: 100px;
+    height: 30px;
+  }
+  
+  .button-text {
+    font-size: 12px;
+  }
+}
