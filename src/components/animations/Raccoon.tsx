@@ -1,6 +1,5 @@
 import { Alignment, Fit, Layout, useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect } from "react";
-import { useDeviceOrientation } from "../../hooks/useDeviceOrientation";
 
 export interface RacconAnimationProps {
   animationState: number, 
@@ -10,7 +9,7 @@ export interface RacconAnimationProps {
 export const Raccoon = ({animationState, setAnimationState}: RacconAnimationProps) => {
   const STATE_MACHINE_NAME = "State Machine 1";
   const STATE_MACHINE_INPUT_NAME = "Number 1";
-  const { isMobile } = useDeviceOrientation();
+  // const { isMobile } = useDeviceOrientation();
 
   const { RiveComponent, rive } = useRive({
     src: "/guaxinim.riv",

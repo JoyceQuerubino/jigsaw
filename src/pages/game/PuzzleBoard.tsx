@@ -3,7 +3,6 @@ import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "re
 import { motion, PanInfo } from "framer-motion";
 import useSound from 'use-sound';
 import school from "../../assets/images/school.jpg";
-import guaxinimImage from "../../assets/images/guaxinim.png";
 import { useGame } from "../../contexts/GameContext";
 import { useSoundContext } from "../../contexts/SoundContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

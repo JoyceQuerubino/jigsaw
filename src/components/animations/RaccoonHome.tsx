@@ -4,10 +4,9 @@ import { useDeviceOrientation } from "../../hooks/useDeviceOrientation";
 
 export interface RacconAnimationProps {
   initialState: number, 
-  animationNumber?: number;
 }
 
-export const RaccoonHome = ({initialState}) => {
+export const RaccoonHome = ({initialState}: RacconAnimationProps) => {
   const STATE_MACHINE_NAME = "State Machine 1";
   const STATE_MACHINE_INPUT_NAME = "Number 1";
   const [flameRateValue, setFlameRateValue] = useState(1);
