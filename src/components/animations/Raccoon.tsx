@@ -13,7 +13,7 @@ export const Raccoon = () => {
   const [flameRateValue, setFlameRateValue] = useState(0);
 
   const { RiveComponent, rive } = useRive({
-    src: "/src/assets/guaxinim.riv",
+    src: "/guaxinim.riv",
     autoplay: true,
     stateMachines: STATE_MACHINE_NAME,
     layout: new Layout({ fit: Fit.Cover, alignment: Alignment.Center }),
