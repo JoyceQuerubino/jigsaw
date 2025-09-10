@@ -1,7 +1,7 @@
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 import ButtonImage from "../../components/ButtonImage";
-import { Raccoon } from "../../components/animations/Raccoon";
+import { RaccoonHome } from "../../components/animations/RaccoonHome";
 
 export function Home() {
   const navigate = useNavigate();
@@ -53,8 +53,7 @@ export function Home() {
       </div>
 
       <div className="home-guaxi-container">
-      <Raccoon />
-        {/* <img src={guaxinin} alt="Menu Box" /> */}
+      <RaccoonHome initialState={1}/>
       </div>
     </div>
   );
