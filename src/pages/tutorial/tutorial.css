@@ -8,39 +8,42 @@
 
 .tutorial-content {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   flex: 1;
   width: 100%;
   max-width: 1600px;
   height: 100%;
 }
 
-.tutorial-background {
-  display: flex;
+.tutorial-credits-card {
   flex: 1;
-  width: 100%;
-  min-height: 660px;
-  border-radius: 16px;
-  position: relative;
-  background-image: url('../../assets/images/tutorial.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  min-height: 500px;
+  min-width: 700px;
 }
 
+
 .tutorial-content-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 78%;
-  max-width: 850px;
-  height: 70%;
+  width: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 20px;
+  padding: 1rem;
   scrollbar-width: thin;
   scrollbar-color: #66525B rgba(102, 82, 91, 0.2);
+}
+
+.tutorial-step-title {
+  text-align: center;
+  width: 100%;
+  color: white;
+  font-family: 'Quantico', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  margin-top: 0;
 }
 
 .tutorial-content-wrapper::-webkit-scrollbar {
@@ -67,33 +70,29 @@
   scrollbar-color: #66525B rgba(102, 82, 91, 0.2);
 }
 
-.tutorial-background h2 {
-  text-align: center;
-  width: 100%;
-  color: white;
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 16px;
-}
 
 .tutorial-background-texts {
   text-align: center;
   width: 100%;
-  color: #403A3D;
-  font-size: 22px;
+  color: #2c2c2c;
+  font-family: 'Quantico', sans-serif;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
+  line-height: 1.4;
 }
 
 .tutorial-list {
   width: 100%;
-  color: #403A3D;
-  font-size: 22px;
+  color: #2c2c2c;
+  font-family: 'Quantico', sans-serif;
+  font-size: 18px;
   font-weight: 600;
   text-align: left;
   padding-left: 20px;
-  list-style: none;
+  list-style: disc;
   margin: 0;
+  line-height: 1.5;
 }
 
 .nav-button {
@@ -106,4 +105,70 @@
 .nav-button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.nav-button img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .tutorial-content {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .tutorial-credits-card {
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  .nav-button img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .tutorial-step-title {
+    font-size: 20px;
+  }
+  
+  .tutorial-background-texts {
+    font-size: 16px;
+  }
+  
+  .tutorial-list {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .tutorial-content {
+    gap: 0.3rem;
+  }
+  
+  .tutorial-credits-card {
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  .nav-button img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .tutorial-step-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .tutorial-background-texts {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .tutorial-list {
+    font-size: 12px;
+    line-height: 1.3;
+  }
 }
