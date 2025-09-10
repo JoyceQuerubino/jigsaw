@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { router } from "./routes";
 import { GameProvider } from "./contexts/GameContext";
+import { SoundProvider } from "./contexts/SoundContext";
 import { useDeviceOrientation } from "./hooks/useDeviceOrientation";
 import { useFullscreen } from "./hooks/useFullscreen";
 import { RotateDeviceWarning } from "./components/RotateDeviceWarning";
@@ -17,10 +18,12 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GameProvider>
-        {shouldShowRotateWarning && <RotateDeviceWarning />}
-        <RouterProvider router={router} />
-      </GameProvider>
+      <SoundProvider>
+        <GameProvider>
+          {shouldShowRotateWarning && <RotateDeviceWarning />}
+          <RouterProvider router={router} />
+        </GameProvider>
+      </SoundProvider>
     </QueryClientProvider>
   );
 }

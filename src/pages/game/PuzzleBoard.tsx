@@ -1,13 +1,16 @@
 //peças como um estado
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { motion, PanInfo } from "framer-motion";
+import useSound from 'use-sound';
 import school from "../../assets/images/school.jpg";
 import guaxinimImage from "../../assets/images/guaxinim.png";
 import { useGame } from "../../contexts/GameContext";
+import { useSoundContext } from "../../contexts/SoundContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
 import { addUserResult } from "../../services/user-results-service";
 import { Raccoon } from "../../components/animations/Raccoon";
+import encaixeSound from "../../assets/sounds/encaixe.wav";
 
 interface Piece {
   row: number;
@@ -36,8 +39,13 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   const [pieces, setPieces] = useState<Piece[]>([]);
   const [completed, setCompleted] = useState(false);
   const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime } = useGame();
+  const { isSoundEnabled } = useSoundContext();
   const constraintsRef = useRef<HTMLDivElement>(null);
+  const [playEncaixe] = useSound(encaixeSound);
   const SNAP_DISTANCE = 25;
+
+  const [animationState, setAnimationState] = useState(0);
+  const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Tamanho total fixo do puzzle (igual ao tamanho usado para 24 peças)
   const PUZZLE_WIDTH = 580; // Largura total do puzzle (6 peças * 90px)
@@ -77,6 +85,27 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     };
   }, []);
 
+  // useEffect para gerenciar timeout de inatividade
+  useEffect(() => {
+    const handleMouseMove = () => {
+      resetInactivityTimeout();
+    };
+
+    // Inicia o timeout quando o componente monta
+    resetInactivityTimeout();
+
+    // Adiciona listener de movimento do mouse
+    document.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      // Cleanup: remove listener e limpa timeout
+      document.removeEventListener('mousemove', handleMouseMove);
+      if (inactivityTimeoutRef.current) {
+        clearTimeout(inactivityTimeoutRef.current);
+      }
+    };
+  }, []);
+
   useImperativeHandle(ref, () => ({
     resetGame
   }));
@@ -108,6 +137,16 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   };
 
   const { cols, rows } = getPuzzleConfig();
+
+  // Função para resetar o timeout de inatividade
+  const resetInactivityTimeout = () => {
+    if (inactivityTimeoutRef.current) {
+      clearTimeout(inactivityTimeoutRef.current);
+    }
+    inactivityTimeoutRef.current = setTimeout(() => {
+      setAnimationState(4);
+    }, 5000); //5 segundos
+  };
   
   // Calcular o tamanho das peças com base no tamanho total do puzzle
   const PIECE_SIZE = Math.min(
@@ -172,7 +211,12 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     return path;
   };
 
+  const handleDragStart = () => {
+    resetInactivityTimeout(); // Reset timeout quando inicia drag
+  };
+
   const handleDragEnd = (pieceId: number, info: PanInfo) => {
+    resetInactivityTimeout(); // Reset timeout quando há interação
     setPieces(prevPieces => {
       const draggedPiece = prevPieces.find(p => p.id === pieceId);
       if (!draggedPiece) return prevPieces;
@@ -196,6 +240,10 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         newX = correctX;
         newY = correctY;
         isPlaced = true;
+        if (isSoundEnabled) {
+          playEncaixe();
+        }
+        setAnimationState(2);
       }
 
       // Se não encaixou na posição correta, verifica vizinhos
@@ -218,9 +266,17 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
               newX = expectedX;
               newY = expectedY;
               isPlaced = true;
+              if (isSoundEnabled) {
+                playEncaixe();
+              }
               break;
             }
           }
+        }
+        
+        // Se ainda não foi colocada após verificar vizinhos, mudança de estado para animação de erro
+        if (!isPlaced) {
+          setAnimationState(3);
         }
       }
 
@@ -321,6 +377,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                 bottom: (rows * PIECE_SIZE + 260) - PIECE_SIZE - 32
               }}
               dragElastic={0}
+              onDragStart={handleDragStart}
               onDragEnd={(_, info) => handleDragEnd(piece.id, info)}
               animate={{
                 x: piece.x,
@@ -345,14 +402,14 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         </svg>
       </div>
 
-      {/* Container da animação Raccoon no lado direito na parte inferior */}
+
       <div style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexShrink: 0,
       }}>
-        <Raccoon />
+        <Raccoon animationState={animationState} setAnimationState={setAnimationState}/>
       </div>
     </div>
   );

@@ -1,16 +1,15 @@
 import { Alignment, Fit, Layout, useRive, useStateMachineInput } from "@rive-app/react-canvas";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDeviceOrientation } from "../../hooks/useDeviceOrientation";
 
 export interface RacconAnimationProps {
-  initialState: number, 
-  animationNumber?: number;
+  animationState: number, 
+  setAnimationState?: (state: number) => void;
 }
 
-export const Raccoon = () => {
+export const Raccoon = ({animationState, setAnimationState}: RacconAnimationProps) => {
   const STATE_MACHINE_NAME = "State Machine 1";
   const STATE_MACHINE_INPUT_NAME = "Number 1";
-  const [flameRateValue, setFlameRateValue] = useState(0);
   const { isMobile } = useDeviceOrientation();
 
   const { RiveComponent, rive } = useRive({
@@ -20,9 +19,8 @@ export const Raccoon = () => {
     layout: new Layout({ fit: Fit.Cover, alignment: Alignment.Center }),
     useOffscreenRenderer: true, 
     onStateChange: (e) => {
-      console.log('State change event:', e.data);
       if(e.data && Array.isArray(e.data) && e.data[0] === 'ide'){
-        setFlameRateValue(0)
+        setAnimationState?.(0)
       }
     }
   });
@@ -35,10 +33,10 @@ export const Raccoon = () => {
 
   useEffect(() => {
     if (flameRateInput) {
-      console.log('Setting flameRateInput.value to:', flameRateValue);
-      flameRateInput.value = flameRateValue;
+      console.log('Setting flameRateInput.value to:', animationState);
+      flameRateInput.value = animationState;
     }
-  }, [flameRateValue, flameRateInput]);
+  }, [animationState, flameRateInput]);
 
 
   return (
@@ -49,9 +47,6 @@ export const Raccoon = () => {
           mixBlendMode: "multiply",
         }} 
       />
-      <button className="button" onClick={() => setFlameRateValue(2)}>
-        BBB
-      </button>
     </div>
   );
 };
