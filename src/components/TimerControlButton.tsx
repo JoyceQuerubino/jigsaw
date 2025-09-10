@@ -18,8 +18,8 @@ export const TimerControlButton: React.FC<TimerControlButtonProps> = ({ isPaused
         border: 'none',
         cursor: 'pointer',
         padding: 0,
-        minWidth: '5rem',
-        minHeight: '4rem',
+        width: '5rem',
+        height: '4rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'

@@ -7,6 +7,7 @@ import { useGame } from "../../contexts/GameContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
 import { addUserResult } from "../../services/user-results-service";
+import { Raccoon } from "../../components/animations/Raccoon";
 
 interface Piece {
   row: number;
@@ -19,7 +20,7 @@ interface Piece {
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
-const WITH_DISTANCE = 1080;
+const WITH_DISTANCE = 900;
 
 interface PuzzleGameProps {
   difficulty: Difficulty;
@@ -124,7 +125,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         initialPieces.push({
           row,
           col,
-          x: Math.random() * (850 - PIECE_SIZE) + 16,
+          x: Math.random() * (780 - PIECE_SIZE) + 16,
           y: areaGuia + Math.random() * (200 - PIECE_SIZE),
           id: row * cols + col,
           isPlaced: false,
@@ -248,7 +249,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         initialPieces.push({
           row,
           col,
-          x: Math.random() * (850 - PIECE_SIZE) + 16,
+          x: Math.random() * (780 - PIECE_SIZE) + 16,
           y: areaGuia + Math.random() * (200 - PIECE_SIZE),
           id: row * cols + col,
           isPlaced: false,
@@ -263,13 +264,14 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     <div style={{ 
       display: 'flex', 
       justifyContent: 'space-between', 
-      alignItems: 'center', 
+      alignItems: 'flex-end', 
       width: '100%', 
       height: '100%',
       padding: '0 20px',
       flex: 1,
       minHeight: 0
     }}>
+      {/* Tabuleiro do puzzle */}
       <div ref={constraintsRef} style={{ position: "relative", width: WITH_DISTANCE, height: rows * PIECE_SIZE + 260 }}>
         <svg width={WITH_DISTANCE} height={rows * PIECE_SIZE + 260} style={{ 
           position: "absolute", 
@@ -342,15 +344,16 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
           ))}
         </svg>
       </div>
-      <img 
-        src={guaxinimImage} 
-        alt="Guaxinim" 
-        style={{
-          width: '250px',
-          height: 'auto',
-          alignSelf: 'flex-end'
-        }}
-      />
+
+      {/* Container da animação Raccoon no lado direito na parte inferior */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexShrink: 0,
+      }}>
+        <Raccoon />
+      </div>
     </div>
   );
 });

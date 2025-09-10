@@ -40,25 +40,11 @@ export const Raccoon = () => {
     }
   }, [flameRateValue, flameRateInput]);
 
-  // Garantir que o estado inicial seja aplicado quando o input estiver disponível
-  // useEffect(() => {
-  //   if (flameRateInput && flameRateValue !== initialState) {
-  //     console.log('Forcing initial state after input is ready:', initialState);
-  //     setFlameRateValue(initialState);
-  //   }
-  // }, [flameRateInput, initialState]);
-
-  const containerStyle = (isMobile) 
-    ? { width: 742, height: 310, paddingTop: '20px', }
-    : { width: 842, height: 410 };
 
   return (
-    <div style={containerStyle}>
+    <div style={{ width: 300, height: 400,  flexShrink: 0,}}>
       <RiveComponent 
         style={{ 
-          paddingTop: 20,
-          width: isMobile ? 322 : 472, 
-          height: isMobile ? 310 : 410, 
           backgroundColor: "transparent",
           mixBlendMode: "multiply",
         }} 
