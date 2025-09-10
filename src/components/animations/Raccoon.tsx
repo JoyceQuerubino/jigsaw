@@ -1,5 +1,6 @@
 import { Alignment, Fit, Layout, useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import { useEffect, useState } from "react";
+import { useDeviceOrientation } from "../../hooks/useDeviceOrientation";
 
 export interface RacconAnimationProps {
   initialState: number, 
@@ -7,10 +8,10 @@ export interface RacconAnimationProps {
 }
 
 export const Raccoon = () => {
-  // Name of the State Machine fo this animation
   const STATE_MACHINE_NAME = "State Machine 1";
   const STATE_MACHINE_INPUT_NAME = "Number 1";
   const [flameRateValue, setFlameRateValue] = useState(0);
+  const { isMobile } = useDeviceOrientation();
 
   const { RiveComponent, rive } = useRive({
     src: "/guaxinim.riv",
@@ -47,10 +48,17 @@ export const Raccoon = () => {
   //   }
   // }, [flameRateInput, initialState]);
 
+  const containerStyle = (isMobile) 
+    ? { width: 742, height: 310, paddingTop: '20px', }
+    : { width: 842, height: 410 };
+
   return (
-    <div style={{ width: 842, height: 410}}>
+    <div style={containerStyle}>
       <RiveComponent 
         style={{ 
+          paddingTop: 20,
+          width: isMobile ? 322 : 472, 
+          height: isMobile ? 310 : 410, 
           backgroundColor: "transparent",
           mixBlendMode: "multiply",
         }} 
