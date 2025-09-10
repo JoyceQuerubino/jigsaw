@@ -10,7 +10,7 @@ export const Raccoon = ({initialState = 0, animationNumber = 2}: RacconAnimation
   // Name of the State Machine for this animation
   const STATE_MACHINE_NAME = "State Machine 1";
   const STATE_MACHINE_INPUT_NAME = "Number 1";
-  const [flameRateValue, setFlameRateValue] = useState(0);
+  const [flameRateValue, setFlameRateValue] = useState(initialState);
 
   const { RiveComponent, rive } = useRive({
     src: "/src/assets/guaxinim.riv",
@@ -55,7 +55,7 @@ export const Raccoon = ({initialState = 0, animationNumber = 2}: RacconAnimation
           mixBlendMode: "multiply",
         }} 
       />
-      <button className="button" onClick={() => setFlameRateValue(2)}>
+      <button className="button" onClick={() => setFlameRateValue(animationNumber)}>
         BBB
       </button>
     </div>
