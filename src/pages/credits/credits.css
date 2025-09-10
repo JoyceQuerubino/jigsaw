@@ -1,19 +1,28 @@
+@font-face {
+  font-family: 'Quantico';
+  src: url('../../fonts/Quantico-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quantico';
+  src: url('../../fonts/Quantico-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 .credits-container {
   flex: 1;
   display: flex;
   padding: 1rem;
-  /* align-items: center; */
   justify-content: center;
-  /* background-color: red; */
 }
 
 .credits-content {
-  position: relative;  /* isso é importante */
+  position: relative; /* isso é importante */
   flex: 1;
   display: flex;
-  width: 900px;
-  height: 900px;
-  /* background-color: orange; */
   padding-top: 1rem;
 }
 
@@ -23,6 +32,8 @@
   padding: 0.5rem;
   background-color: white;
   border-radius: 3rem;
+  max-width: 940px;
+  margin: 0 auto;
 }
 
 .credits-brow {
@@ -30,7 +41,7 @@
   display: flex;
   padding: 1rem;
   border-radius: 3rem;
-  background-color: #66525B;
+  background-color: #66525b;
 }
 
 .credits-yellow {
@@ -38,42 +49,67 @@
   display: flex;
   padding: 1.5rem;
   border-radius: 2rem;
-  background-color: #F6BE1E;
+  background-color: #f6be1e;
 }
 
-.credits-orange{
+.credits-orange {
   flex: 1;
   display: flex;
   border-radius: 2rem;
-  background-color: #EA8903;
-  padding: 1rem;
+  background-color: #ea8903;
+  padding: 2rem;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .credits-header {
   position: absolute;
   top: 0;
-  left: 50%;             /* começa no meio da largura do pai */
+  left: 50%; /* começa no meio da largura do pai */
   width: 400px;
-  height: 80px;           /* largura fixa */
+  height: 80px; /* largura fixa */
   padding: 0.5rem 1rem;
-  background-color: #66525B; /* marrom do seu .credits-brow */
+  background-color: #66525b; /* marrom do seu .credits-brow */
   color: white;
   border-radius: 0.5rem 0.5rem 1.5rem 1.5rem; /* arredonda só na base, porque tá no topo */
-  transform: translateX(-50%);  /* desloca para a esquerda metade da largura (100px/2) */
+  transform: translateX(
+    -50%
+  ); /* desloca para a esquerda metade da largura (100px/2) */
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  /* border-top: 1rem solid #FFF; */
-  border-bottom: 0.7rem solid #4B3A41;
+  border-bottom: 0.7rem solid #4b3a41;
 }
 
 .credits-header h1 {
   margin: 0;
-  font-size: 1rem;
+  font-family: 'Quantico', sans-serif;
+  font-size: 48px;
   font-weight: bold;
   text-transform: uppercase;
 }
+
+@media (max-width: 1024px) {
+  .credits-header h1 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .credits-header h1 {
+    font-size: 24px;
+  }
+}
+
+
+.unifesp-logo {
+  max-width: 163px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 
 .credits-header-white {
   position: absolute;
@@ -85,4 +121,111 @@
   border-radius: 0.5rem;
   transform: translateX(-50%);
   z-index: 5; /* menor que o .credits-header para ficar atrás */
+}
+
+.credits-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.credits-col h3 {
+  font-family: 'Quantico', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0 0 0.5rem 0;
+}
+
+.credits-col p {
+  font-family: 'Quantico', sans-serif;
+  font-weight: normal;
+  margin: 0 0 1rem 0;
+  font-size: 18px;
+}
+
+@media (max-width: 1024px) {
+  .credits-col h3 {
+    font-size: 20px;
+  }
+  
+  .credits-col p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .credits-col h3 {
+    font-size: 20px;
+  }
+  
+  .credits-col p {
+    font-size: 16px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .credits-container {
+    padding: 0.5rem;
+  }
+  
+  .credits-content {
+    padding-top: 0.5rem;
+  }
+  
+  .credits-white {
+    padding: 0.2rem;
+    border-radius: 1.5rem;
+    max-width: 700px;
+  }
+  
+  .credits-brow {
+    padding: 0.5rem;
+    border-radius: 1.5rem;
+  }
+  
+  .credits-yellow {
+    padding: 0.8rem;
+    border-radius: 1rem;
+  }
+  
+  .credits-orange {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+  
+  .credits-header {
+    height: 60px;
+    width: 250px;
+    border-radius: 0.3rem 0.3rem 0.8rem 0.8rem;
+    border-bottom: 0.4rem solid #4b3a41;
+  }
+  
+  .credits-header h1 {
+    font-size: 20px;
+  }
+  
+  .credits-header-white {
+    top: -0.2rem;
+    width: 256px;
+    height: 13px;
+    border-radius: 0.2rem;
+  }
+  
+  .unifesp-logo {
+    max-width: 70px;
+  }
+  
+  .credits-col h3 {
+    font-size: 14px;
+    margin: 0 0 0.2rem 0;
+  }
+  
+  .credits-col p {
+    font-size: 10px;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .credits-col-row {
+    margin-bottom: 0.5rem;
+  }
 }
