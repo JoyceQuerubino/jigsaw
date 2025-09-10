@@ -3,6 +3,7 @@ html, body {
     padding: 0;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
 
 body {
@@ -21,6 +22,7 @@ body {
     width: 100%;
     height: 100vh;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .menu-container {
@@ -29,6 +31,7 @@ body {
     align-items: center;
     width: 100%;
     max-width: 600px;
+    max-height: 80vh;
     aspect-ratio: 1;
     background-image: url('../../assets/images/menu/box-menu.png');
     background-size: contain;
@@ -47,23 +50,6 @@ body {
     gap: 4px;
 }
 
-.menu-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    padding: 0;
-    width: 80%;
-}
-
-.menu-button:hover {
-    transform: scale(1.05);
-}
-
-.menu-button img {
-    width: 100%;
-    height: auto;
-}
 
 .home-guaxi-container {
     width: 22%;
@@ -101,5 +87,72 @@ body {
 @media (min-height: 1020px) {
     .menu-container {
         max-width: 900px;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-height: 500px) and (orientation: landscape) {
+    .box-container {
+        padding: 10px;
+        flex-direction: row;
+        gap: 20px;
+    }
+    
+    .menu-container {
+        max-width: 400px;
+        max-height: 90vh;
+        flex-shrink: 0;
+    }
+    
+    .home-guaxi-container {
+        width: 20%;
+        height: 80vh;
+        flex-shrink: 0;
+    }
+    
+    .buttons-list {
+        gap: 2px;
+        margin-top: 2%;
+        height: 75%;
+    }
+}
+
+/* Tablet Portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+    .box-container {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    .menu-container {
+        max-width: 80vw;
+        max-height: 70vh;
+    }
+    
+    .home-guaxi-container {
+        width: 30%;
+        height: 25vh;
+    }
+}
+
+/* Small screens general */
+@media (max-width: 480px) {
+    .box-container {
+        padding: 10px;
+    }
+    
+    .menu-container {
+        max-width: 90vw;
+        max-height: 75vh;
+    }
+    
+    .home-guaxi-container {
+        width: 25%;
+        height: 20vh;
+    }
+    
+    .buttons-list {
+        gap: 1px;
+        width: 60%;
     }
 }

@@ -1,0 +1,151 @@
+@font-face {
+  font-family: 'Quantico';
+  src: url('../../fonts/Quantico-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quantico';
+  src: url('../../fonts/Quantico-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.credits-content {
+  position: relative;
+  flex: 1;
+  display: flex;
+  padding-top: 1rem;
+}
+
+.credits-header {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 400px;
+  height: 80px;
+  padding: 0.5rem 1rem;
+  background-color: #66525b;
+  color: white;
+  border-radius: 0.5rem 0.5rem 1.5rem 1.5rem;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-bottom: 0.7rem solid #4b3a41;
+}
+
+.credits-header h1 {
+  margin: 0;
+  font-family: 'Quantico', sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.credits-header-white {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  width: 420px;
+  height: 30px;
+  background-color: white;
+  border-radius: 0.5rem;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.credits-white {
+  flex: 1;
+  display: flex;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 3rem;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.credits-brow {
+  flex: 1;
+  display: flex;
+  padding: 1rem;
+  border-radius: 3rem;
+  background-color: #66525b;
+}
+
+.credits-yellow {
+  flex: 1;
+  display: flex;
+  padding: 1.5rem;
+  border-radius: 2rem;
+  background-color: #f6be1e;
+}
+
+.credits-orange {
+  flex: 1;
+  display: flex;
+  border-radius: 2rem;
+  background-color: #ea8903;
+  padding: 2rem;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media (max-width: 1024px) {
+  .credits-header h1 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .credits-header h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .credits-content {
+    padding-top: 0.5rem;
+  }
+  
+  .credits-header {
+    height: 40px;
+    width: 150px;
+    border-radius: 0.3rem 0.3rem 0.8rem 0.8rem;
+    border-bottom: 0.4rem solid #4b3a41;
+  }
+  
+  .credits-header h1 {
+    font-size: 20px;
+  }
+  
+  .credits-header-white {
+    top: -0.2rem;
+    width: 156px;
+    height: 13px;
+    border-radius: 0.2rem;
+  }
+  .credits-white {
+    padding: 0.2rem;
+    border-radius: 1.5rem;
+    max-width: 700px;
+  }
+  
+  .credits-brow {
+    padding: 0.5rem;
+    border-radius: 1.5rem;
+  }
+  
+  .credits-yellow {
+    padding: 0.8rem;
+    border-radius: 1rem;
+  }
+  
+  .credits-orange {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+}

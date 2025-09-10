@@ -7,15 +7,15 @@ type TutorialType = {
 
 const listTips = [
   "1. Defina objetivos e metas centradas no usuário, ao seu perfil e cotidiano.",
-  "2. Utilize cores claras e contrastantes, preferidas pelo usuário, sem usá-las como único meio de comunicação.",
+  "2. Priorize cores claras e contrastantes, preferidas pelo usuário.",
   "3. Use linguagem visual e textual simples, clara e com símbolos familiares, evitando jargões, metáforas e ambiguidades.",
   "4. Utilize elementos reconhecíveis e cotidianos.",
   "5. Foque na tarefa e evite distrações que possam sobrecarregar o usuário.",
   "6. Ofereça instruções claras e suporte contínuo, com reforços positivos e sem feedbacks negativos em caso de erro.",
   "7. Permita tentativas antes de mostrar a resposta correta.",
-  "8. Deixe o controle do tempo nas mãos do usuário.",
+  "8. Permita que o usuário gerencie o tempo da atividade.",
   "9. Monitore e avalie o progresso do usuário com feedbacks.",
-  "10. Inclua personagens virtuais para facilitar o aprendizado e promover empatia.",
+  "10. Inclua imagens de personagens preferidos do usuário para facilitar o aprendizado e promover empatia.",
 ];
 
 export const tutorialData: TutorialType[] = [

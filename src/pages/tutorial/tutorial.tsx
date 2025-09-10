@@ -3,6 +3,7 @@ import { useState } from "react";
 import btnBack from "../../assets/images/slider/btn-back.png";
 import btnGo from "../../assets/images/slider/btn-go.png";
 import { tutorialData } from "./tutorial-data";
+import { CreditsCard } from "../../components/CreditsCard";
 
 export function Tutorial() {
   const [steps, setSteps] = useState(0);
@@ -18,9 +19,10 @@ export function Tutorial() {
           <img src={btnBack} alt="Voltar" />
         </button>
 
-        <div className="tutorial-background">
-          <div className="tutorial-content-wrapper">
-            <h2>{tutorialData[steps].title}</h2>
+        <div className="tutorial-credits-card">
+          <CreditsCard title="TUTORIAL">
+            <div className="tutorial-content-wrapper">
+            <h2 className="tutorial-step-title">{tutorialData[steps].title}</h2>
             <p className="tutorial-background-texts">{tutorialData[steps].text}</p>
             {tutorialData[steps].list && (
               <ul className="tutorial-list">
@@ -29,7 +31,8 @@ export function Tutorial() {
                 ))}
               </ul>
             )}
-          </div>
+            </div>
+          </CreditsCard>
         </div>
 
         <button 

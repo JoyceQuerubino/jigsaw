@@ -1,79 +1,91 @@
+@font-face {
+  font-family: 'Quantico';
+  src: url('../../fonts/Quantico-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quantico';
+  src: url('../../fonts/Quantico-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 .credits-container {
+  flex: 1;
   display: flex;
+  padding: 1rem;
   justify-content: center;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-}
-
-.credits-content {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 1600px;
-  height: 100%;
-}
-
-.credits-background {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  min-height: 560px;
-  border-radius: 16px;
-  position: relative;
-  background-image: url('../../assets/images/credits.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.credits-content-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 78%;
-  max-width: 900px;
-  height: 60%;
-  display: flex;
-  flex-direction: row;
-  overflow-y: auto;
-  padding: 20px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  justify-content: center;
-  gap: 56px;
-}
-
-.credits-content-wrapper::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
-}
-
-.credits-background h3 {
-  text-align: center;
-  width: 100%;
-  color: white;
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.credits-background p {
-  text-align: center;
-  width: 100%;
-  color: #403A3D;
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.credits-content-items {
-  margin-bottom: 24px;
 }
 
 .unifesp-logo {
-  width: 170px;
-  height: 80px;
-  max-width: 200px;
+  max-width: 163px;
   height: auto;
   display: block;
   margin: 0 auto;
+}
+
+.credits-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.credits-col h3 {
+  font-family: 'Quantico', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0 0 0.5rem 0;
+}
+
+.credits-col p {
+  font-family: 'Quantico', sans-serif;
+  font-weight: normal;
+  margin: 0 0 1rem 0;
+  font-size: 18px;
+}
+
+@media (max-width: 1024px) {
+  .credits-col h3 {
+    font-size: 20px;
+  }
+  
+  .credits-col p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .credits-col h3 {
+    font-size: 20px;
+  }
+  
+  .credits-col p {
+    font-size: 16px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .credits-container {
+    padding: 0.5rem;
+  }
+  
+  .unifesp-logo {
+    max-width: 70px;
+  }
+  
+  .credits-col h3 {
+    font-size: 14px;
+    margin: 0 0 0.2rem 0;
+  }
+  
+  .credits-col p {
+    font-size: 10px;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .credits-col-row {
+    margin-bottom: 0.5rem;
+  }
 }
