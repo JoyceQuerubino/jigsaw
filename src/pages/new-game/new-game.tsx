@@ -84,7 +84,7 @@ export function NewGame() {
 
   async function handleDelete(){
 
-    const game = getGameById(editingGameId);
+    const game = getGameById(editingGameId!);
     
     if(game?.isDefault) {
       alert("Não é possível deletar jogos padrões do sistema");

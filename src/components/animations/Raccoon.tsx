@@ -20,7 +20,7 @@ export const Raccoon = ({initialState = 0, animationNumber = 2}: RacconAnimation
     useOffscreenRenderer: true, 
     onStateChange: (e) => {
       console.log('State change event:', e.data);
-      if(e.data[0] === 'ide'){
+      if(e.data && Array.isArray(e.data) && e.data[0] === 'ide'){
         setFlameRateValue(0)
       }
     }
