@@ -3,6 +3,7 @@ export interface GameType {
   title: string;
   type: string;
   image: string;
+  isDefault?: boolean,
 }
 
 export interface EditeGameType {
@@ -10,6 +11,7 @@ export interface EditeGameType {
   title?: string;
   type?: string;
   image?: string;
+  isDefault?: boolean,
 }
 
 export type EditGameProps = {

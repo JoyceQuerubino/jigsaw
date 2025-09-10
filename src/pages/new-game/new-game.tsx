@@ -8,7 +8,7 @@ import { Modal } from "../../components/Modal/Modal";
 import { ModalContent } from "../../components/ModalContent/ModalContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
-import { addGame, editGameById, deleteGameById } from "../../services/storage-services";
+import { addGame, editGameById, deleteGameById, getGameById } from "../../services/storage-services";
 import { GameType } from "../../services/types";
 
 interface RouteHandle {
@@ -55,7 +55,8 @@ export function NewGame() {
           updatedGameData: {
             title: gameData.title,
             image: gameData.image,
-            type: gameData.type
+            type: gameData.type,
+            isDefault: gameData.isDefault,
           }
         });
         return { ...gameData, id: editingGameId };
@@ -80,6 +81,21 @@ export function NewGame() {
       navigate("/my-games");
     },
   });
+
+  async function handleDelete(){
+
+    const game = getGameById(editingGameId);
+    
+    if(game?.isDefault) {
+      alert("Não é possível deletar jogos padrões do sistema");
+      return;
+    }
+
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir este jogo?");
+    if (confirmDelete && editingGameId) {
+      await deleteGameFn(editingGameId);
+    }
+  }
 
   async function handleNavigateTo() {
     if (!theme || !selectedImage) {
@@ -145,12 +161,7 @@ export function NewGame() {
               {editingGameId && (
                 <Button
                   text="Excluir"
-                  onClick={async () => {
-                    const confirmDelete = window.confirm("Tem certeza que deseja excluir este jogo?");
-                    if (confirmDelete && editingGameId) {
-                      await deleteGameFn(editingGameId);
-                    }
-                  }}
+                  onClick={()=> handleDelete()}
                   imageWidth="164px"
                   imageHeight="68px"
                   variant="red"

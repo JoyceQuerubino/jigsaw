@@ -50,6 +50,14 @@ export function deleteGameById(id: string) {
   StorageService.saveGames(updatedGames);
 }
 
+export function getGameById(id: string): GameType | undefined {
+  const currentGames = StorageService.getGames();
+
+  const game = currentGames.find((game: GameType) => game.id === id);
+
+  return game;
+}
+
 export function getGamesReady(): GameType[] {
   try {
     const gamesStr = localStorage.getItem("games");

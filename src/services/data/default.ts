@@ -11,17 +11,20 @@ export const defaultGames: GameType[] = [
     title: "Escola",
     type: 'Quebra-cabeça',
     image: school,
+    isDefault: true,
   },
   {
     id: uuidv4(),
     title: "Alimentação",
     type: 'Quebra-cabeça',
     image: alimentacao,
+    isDefault: true,
   },
   {
     id: uuidv4(),
     title: "Higiene",
     type: 'Quebra-cabeça',
     image: higiene,
+    isDefault: true,
   },
 ];
