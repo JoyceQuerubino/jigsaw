@@ -6,11 +6,15 @@ interface GameContextData {
   puzzleImage: string;
   title: string;
   isPuzzleComplete: boolean;
+  setPuzzleComplete: (isComplete: boolean) => void;
   setGameData: (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string }) => void;
   time: number;
   setTime: (time: number) => void;
   isPaused: boolean;
   setIsPaused: (isPaused: boolean) => void;
+  isGameStarted: boolean;
+  startGame: () => void;
+  resetGame: () => void;
   formatTime: (seconds: number) => string;
 }
 
@@ -27,14 +31,15 @@ export function GameProvider({ children }: GameProviderProps) {
     puzzleImage: '',
     title: ''
   });
-  const [isPuzzleComplete] = useState(false);
+  const [isPuzzleComplete, setIsPuzzleComplete] = useState(false);
   const [time, setTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
-    if (!isPaused) {
+    if (isGameStarted && !isPaused && !isPuzzleComplete) {
       interval = setInterval(() => {
         setTime(prevTime => prevTime + 1);
       }, 1000);
@@ -45,10 +50,22 @@ export function GameProvider({ children }: GameProviderProps) {
         clearInterval(interval);
       }
     };
-  }, [isPaused]);
+  }, [isGameStarted, isPaused, isPuzzleComplete]);
 
   const handleSetGameData = (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string }) => {
     setGameData(data);
+  };
+
+  const startGame = () => {
+    setIsGameStarted(true);
+    setIsPaused(false);
+  };
+
+  const resetGame = () => {
+    setTime(0);
+    setIsGameStarted(false);
+    setIsPaused(false);
+    setIsPuzzleComplete(false);
   };
 
   const formatTime = (seconds: number) => {
@@ -61,11 +78,15 @@ export function GameProvider({ children }: GameProviderProps) {
     <GameContext.Provider value={{ 
       ...gameData, 
       isPuzzleComplete,
+      setPuzzleComplete: setIsPuzzleComplete,
       setGameData: handleSetGameData,
       time,
       setTime,
       isPaused,
       setIsPaused,
+      isGameStarted,
+      startGame,
+      resetGame,
       formatTime
     }}>
       {children}

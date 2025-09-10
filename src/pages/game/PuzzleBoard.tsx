@@ -37,7 +37,7 @@ export interface PuzzleGameRef {
 const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, setIsModalSucessOpen, onReset }, ref) => {
   const [pieces, setPieces] = useState<Piece[]>([]);
   const [completed, setCompleted] = useState(false);
-  const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime } = useGame();
+  const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime, setPuzzleComplete } = useGame();
   const { isSoundEnabled } = useSoundContext();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const [playEncaixe] = useSound(encaixeSound);
@@ -287,7 +287,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
       const isComplete = updatedPieces.every(piece => piece.isPlaced);
       if (isComplete) {
         setCompleted(true);
-        setIsPaused(true);
+        setPuzzleComplete(true);
       }
 
       return updatedPieces;
@@ -296,6 +296,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
   const resetGame = () => {
     setCompleted(false);
+    setPuzzleComplete(false);
     const initialPieces: Piece[] = [];
     const areaGuia = (rows * PIECE_SIZE) + 32;
 

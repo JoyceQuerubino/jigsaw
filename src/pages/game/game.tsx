@@ -7,7 +7,7 @@ import { PauseModal } from "../../components/PauseModal/PauseModal";
 import { SuccessModal } from "../../components/SuccessModal/SuccessModal";
 
 export function Game() {
-  const { difficulty, puzzleImage, setTime, setIsPaused } = useGame();
+  const { difficulty, puzzleImage, setIsPaused, resetGame, startGame } = useGame();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSucessOpen, setIsModalSucessOpen] = useState(false);
   const puzzleRef = useRef<{ resetGame: () => void }>(null);
@@ -16,8 +16,7 @@ export function Game() {
   const { isPaused } = useGame();
 
   const handleReset = () => {
-    setTime(0);
-    setIsPaused(false);
+    resetGame();
     setIsModalOpen(false);
     if (puzzleRef.current) {
       puzzleRef.current.resetGame();
@@ -45,6 +44,12 @@ export function Game() {
       navigate("/model");
     }
   }, [puzzleImage, navigate]);
+
+  useEffect(() => {
+    if (puzzleImage) {
+      startGame();
+    }
+  }, [puzzleImage, startGame]);
 
   return (
     <div className="board-container">
