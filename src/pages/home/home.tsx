@@ -53,7 +53,7 @@ export function Home() {
       </div>
 
       <div className="home-guaxi-container">
-      <Raccoon />
+      <Raccoon initialState={1} />
         {/* <img src={guaxinin} alt="Menu Box" /> */}
       </div>
     </div>
