@@ -1,0 +1,27 @@
+.fullscreen-button {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: background-color 0.2s ease;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.fullscreen-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.fullscreen-button:active {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.fullscreen-button svg {
+  width: 24px;
+  height: 24px;
+}

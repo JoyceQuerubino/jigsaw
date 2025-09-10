@@ -2,6 +2,7 @@ import "./styles.css";
 import { useNavigate, useMatches } from 'react-router-dom';
 import { GameTimer } from '../GameTimer/GameTimer';
 import { SoundButton } from '../SoundButton/SoundButton';
+import { FullScreenButton } from '../FullScreenButton';
 import { useGame } from '../../contexts/GameContext';
 import menuButton from '../../assets/images/btn-menu.png';
 import returnButton from '../../assets/images/btn-return.png';
@@ -47,10 +48,15 @@ export function Header({ title, isMenu }: HeaderProps) {
         {title && <h1 className="header-title">{title}</h1>}
       </div>
 
-      {isGame && <div className="header-right">
-        <GameTimer isComplete={isPuzzleComplete} />
-        <SoundButton />
-      </div>}
+      <div className="header-right">
+        {isGame && (
+          <>
+            <GameTimer isComplete={isPuzzleComplete} />
+            <SoundButton />
+          </>
+        )}
+        <FullScreenButton />
+      </div>
     </header>
   );
 }
