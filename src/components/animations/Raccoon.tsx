@@ -43,7 +43,7 @@ export const Raccoon = () => {
         }} 
       />
       <button className="button" onClick={() => setFlameRateValue(2)}>
-        AAAAAA
+        BBB
       </button>
     </div>
   );
