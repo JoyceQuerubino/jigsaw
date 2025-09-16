@@ -56,7 +56,7 @@ export function Results() {
               </div>
 
               <div className="results-column">
-                <h3>Tempo (min/s)</h3>
+                <h3>Tempo (min:s)</h3>
                 {currentItems?.map((item, index) => (
                   <p key={`time-${index}`}>{item.time}</p>
                 ))}

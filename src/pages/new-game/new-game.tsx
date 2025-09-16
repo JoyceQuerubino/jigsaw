@@ -26,6 +26,8 @@ export function NewGame() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const gameAsyncData = getGameById(editingGameId!);
+
   useEffect(() => {
     if (location.state?.gameData) {
       const gameData = location.state.gameData as GameType;
@@ -83,14 +85,6 @@ export function NewGame() {
   });
 
   async function handleDelete(){
-
-    const game = getGameById(editingGameId!);
-    
-    if(game?.isDefault) {
-      alert("Não é possível deletar jogos padrões do sistema");
-      return;
-    }
-
     const confirmDelete = window.confirm("Tem certeza que deseja excluir este jogo?");
     if (confirmDelete && editingGameId) {
       await deleteGameFn(editingGameId);
@@ -158,7 +152,7 @@ export function NewGame() {
                 imageWidth="268px"
                 imageHeight="68px"
               />
-              {editingGameId && (
+              {editingGameId && !gameAsyncData?.isDefault && (
                 <Button
                   text="Excluir"
                   onClick={()=> handleDelete()}

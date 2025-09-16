@@ -4,9 +4,10 @@ import { useEffect } from "react";
 export interface RacconAnimationProps {
   animationState: number, 
   setAnimationState?: (state: number) => void;
+  isPaused?: boolean;
 }
 
-export const Raccoon = ({animationState, setAnimationState}: RacconAnimationProps) => {
+export const Raccoon = ({animationState, setAnimationState, isPaused = false}: RacconAnimationProps) => {
   const STATE_MACHINE_NAME = "State Machine 1";
   const STATE_MACHINE_INPUT_NAME = "Number 1";
   // const { isMobile } = useDeviceOrientation();
@@ -36,6 +37,16 @@ export const Raccoon = ({animationState, setAnimationState}: RacconAnimationProp
       flameRateInput.value = animationState;
     }
   }, [animationState, flameRateInput]);
+
+  useEffect(() => {
+    if (rive) {
+      if (isPaused) {
+        rive.pause();
+      } else {
+        rive.play();
+      }
+    }
+  }, [isPaused, rive]);
 
 
   return (

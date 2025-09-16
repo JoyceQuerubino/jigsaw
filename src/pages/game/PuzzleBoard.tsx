@@ -144,7 +144,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     }
     inactivityTimeoutRef.current = setTimeout(() => {
       setAnimationState(4);
-    }, 5000); //5 segundos
+    }, 10000); //10 segundos
   };
   
   // Calcular o tamanho das peças com base no tamanho total do puzzle
@@ -409,7 +409,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         alignItems: 'center',
         flexShrink: 0,
       }}>
-        <Raccoon animationState={animationState} setAnimationState={setAnimationState}/>
+        <Raccoon animationState={animationState} setAnimationState={setAnimationState} isPaused={completed}/>
       </div>
     </div>
   );

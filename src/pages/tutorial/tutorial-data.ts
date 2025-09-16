@@ -22,7 +22,7 @@ export const tutorialData: TutorialType[] = [
   {
     id: 0,
     title: "Qual o objetivo da plataforma?",
-    text: "Auxiliar profissionais da saúde e educação, no desenvolvimento de atividades pedagógicas, no formato de jogos adaptados para autistas.",
+    text: "Auxiliar profissionais da saúde e educação, no desenvolvimento de atividades pedagógicas no formato de jogos adaptados para autistas.",
   },
   {
     id: 1,
