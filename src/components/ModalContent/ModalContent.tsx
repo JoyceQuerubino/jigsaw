@@ -150,18 +150,10 @@ export function ModalContent({ onImageSelect, onClose }: ModalContentProps) {
       return;
     }
 
-    // Verifica se é uma imagem padrão
-    const isDefaultImage = images.some(img => img.src === visuallySelectedImage);
-    if (isDefaultImage) {
-      alert('Não é possível deletar imagens padrão do sistema. Apenas imagens adicionadas por você podem ser removidas.');
-      return;
-    }
-
     // Verifica se é uma foto local
     const localPhoto = localPhotos.find(photo => photo.dataUrl === visuallySelectedImage);
     if (!localPhoto) {
-      alert('Esta imagem não pode ser deletada. Apenas imagens adicionadas por você podem ser removidas.');
-      return;
+      return; // Não faz nada se não for uma foto local
     }
 
     const confirmDelete = window.confirm(`Tem certeza que deseja deletar a imagem "${localPhoto.metadata.name}"?`);
@@ -171,15 +163,24 @@ export function ModalContent({ onImageSelect, onClose }: ModalContentProps) {
         if (success) {
           await loadLocalPhotos();
           setVisuallySelectedImage(null);
-          alert('Imagem deletada com sucesso!');
-        } else {
-          alert('Erro ao deletar a imagem. Tente novamente.');
         }
       } catch (error) {
         console.error('Erro ao deletar foto:', error);
         alert('Erro ao deletar a imagem. Tente novamente.');
       }
     }
+  };
+
+  const isDeleteButtonDisabled = () => {
+    if (!visuallySelectedImage) return true;
+    
+    // Verifica se é uma imagem padrão
+    const isDefaultImage = images.some(img => img.src === visuallySelectedImage);
+    if (isDefaultImage) return true;
+    
+    // Verifica se é uma foto local
+    const localPhoto = localPhotos.find(photo => photo.dataUrl === visuallySelectedImage);
+    return !localPhoto;
   };
 
   return (
@@ -227,13 +228,15 @@ export function ModalContent({ onImageSelect, onClose }: ModalContentProps) {
       </div>
 
       <div className="modal-conteiner-buttons">
-        <Button
-          variant="red"
-          text="Deletar"
-          onClick={handleDeleteButtonClick}
-          imageWidth="168px"
-          imageHeight="68px"
-        />
+        <div style={{ opacity: isDeleteButtonDisabled() ? 0.3 : 1 }}>
+          <Button
+            variant="red"
+            text="Excluir"
+            onClick={isDeleteButtonDisabled() ? () => {} : handleDeleteButtonClick}
+            imageWidth="168px"
+            imageHeight="68px"
+          />
+        </div>
         
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Button
