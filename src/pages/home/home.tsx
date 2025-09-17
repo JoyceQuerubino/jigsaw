@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import useSound from 'use-sound';
 import ButtonImage from "../../components/ButtonImage";
 import { RaccoonHome } from "../../components/animations/RaccoonHome";
-import ambienteSound from "../../assets/sounds/ambiente.mp3";
+import ambienteSound from "../../assets/sounds/ambiente2.mp3";
 
 export function Home() {
   const navigate = useNavigate();
   const [playAmbiente, { stop }] = useSound(ambienteSound, {
     loop: true,
-    volume: 0.5
+    volume: 0.1
   });
 
   useEffect(() => {
