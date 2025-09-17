@@ -5,21 +5,28 @@ import useSound from 'use-sound';
 import ButtonImage from "../../components/ButtonImage";
 import { RaccoonHome } from "../../components/animations/RaccoonHome";
 import ambienteSound from "../../assets/sounds/ambiente2.mp3";
+import { SoundButton } from "../../components/SoundButton/SoundButton";
+import { useSoundContext } from "../../contexts/SoundContext";
 
 export function Home() {
   const navigate = useNavigate();
+  const { isSoundEnabled } = useSoundContext();
   const [playAmbiente, { stop }] = useSound(ambienteSound, {
     loop: true,
     volume: 0.1
   });
 
   useEffect(() => {
-    playAmbiente();
+    if (isSoundEnabled) {
+      playAmbiente();
+    } else {
+      stop();
+    }
     
     return () => {
       stop();
     };
-  }, [playAmbiente, stop]);
+  }, [playAmbiente, stop, isSoundEnabled]);
 
   function handleNavigateTo(screen: string) {
     navigate(screen);
@@ -37,6 +44,9 @@ export function Home() {
 
   return (
     <div className="box-container">
+      <div className="sound-button-wrapper">
+        <SoundButton />
+      </div>
       <div className="menu-container">
         <div className="buttons-list">
           <ButtonImage

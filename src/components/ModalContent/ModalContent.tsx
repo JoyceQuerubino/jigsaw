@@ -153,7 +153,7 @@ export function ModalContent({ onImageSelect, onClose }: ModalContentProps) {
     // Verifica se é uma foto local
     const localPhoto = localPhotos.find(photo => photo.dataUrl === visuallySelectedImage);
     if (!localPhoto) {
-      return; // Não faz nada se não for uma foto local
+      return; 
     }
 
     const confirmDelete = window.confirm(`Tem certeza que deseja deletar a imagem "${localPhoto.metadata.name}"?`);

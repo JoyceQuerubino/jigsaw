@@ -25,6 +25,13 @@ body {
     box-sizing: border-box;
 }
 
+.sound-button-wrapper {
+    position: absolute;
+    top: 0.5rem;
+    right: 80px;
+    z-index: 1000;
+}
+
 .menu-container {
     display: flex;
     justify-content: center;
