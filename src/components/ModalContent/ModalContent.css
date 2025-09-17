@@ -67,5 +67,35 @@
 .modal-conteiner-buttons {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upload-button {
+  width: 288px;
+  height: 160px;
+  background-color: #007EB8;
+  border-radius: 24px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  order: -1;
+}
+
+.upload-button:hover {
+  background-color: #005a8a;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.upload-icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 8px;
 }
