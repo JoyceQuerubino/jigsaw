@@ -162,7 +162,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
     let path = `M 0 0 `;
     if (top === "flat") path += `H ${size} `;
-    else path += `H ${half - neck} Q ${half} ${top === "out" ? -tab : tab} ${half + neck} 0 H ${size} `;
+    else path += `H ${half - neck} Q ${half} ${top === "in" ? tab : -tab} ${half + neck} 0 H ${size} `;
 
     if (right === "flat") path += `V ${size} `;
     else path += `V ${half - neck} Q ${size + (right === "out" ? tab : -tab)} ${half} ${size} ${half + neck} V ${size} `;
@@ -171,7 +171,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     else path += `H ${half + neck} Q ${half} ${size + (bottom === "out" ? tab : -tab)} ${half - neck} ${size} H 0 `;
 
     if (left === "flat") path += `V 0 `;
-    else path += `V ${half + neck} Q ${left === "out" ? -tab : tab} ${half} 0 ${half - neck} V 0 `;
+    else path += `V ${half + neck} Q ${left === "in" ? tab : -tab} ${half} 0 ${half - neck} V 0 `;
 
     path += `Z`;
     return path;
@@ -389,7 +389,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                     if (top === "flat") ctx.lineTo(size, 0);
                     else {
                       ctx.lineTo(half - neck, 0);
-                      ctx.quadraticCurveTo(half, top === "out" ? -tab : tab, half + neck, 0);
+                      ctx.quadraticCurveTo(half, top === "in" ? tab : -tab, half + neck, 0);
                       ctx.lineTo(size, 0);
                     }
 
@@ -413,7 +413,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                     if (left === "flat") ctx.lineTo(0, 0);
                     else {
                       ctx.lineTo(0, half + neck);
-                      ctx.quadraticCurveTo(left === "out" ? -tab : tab, half, 0, half - neck);
+                      ctx.quadraticCurveTo(left === "in" ? tab : -tab, half, 0, half - neck);
                       ctx.lineTo(0, 0);
                     }
 
@@ -435,7 +435,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                 <Path
                   data={getPiecePath(piece.row, piece.col)}
                   stroke={piece.isPlaced ? "rgba(0,0,0,0)" : "#555"}
-                  strokeWidth={1}
+                  strokeWidth={1 * scale}
                 />
               </Group>
             ))}
@@ -448,6 +448,10 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         justifyContent: 'center',
         alignItems: 'center',
         flexShrink: 0,
+        transform: isMobile ? `scale(${scale * 0.8})` : `scale(${scale * 1.2})`, // Guaxinim menor no mobile
+        transition: 'transform 0.3s ease',
+        marginBottom: '-10px', // Faz ele "sentar" na base
+        alignSelf: 'flex-end'
       }}>
         <Raccoon animationState={animationState} setAnimationState={setAnimationState} isPaused={completed}/>
       </div>
