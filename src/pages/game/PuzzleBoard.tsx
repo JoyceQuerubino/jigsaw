@@ -22,8 +22,6 @@ interface Piece {
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
-const WITH_DISTANCE = 900;
-
 interface PuzzleGameProps {
   difficulty: Difficulty;
   setIsModalSucessOpen: (value: boolean) => void;
@@ -40,16 +38,53 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime, setPuzzleComplete } = useGame();
   const { isSoundEnabled } = useSoundContext();
   const [playEncaixe] = useSound(encaixeSound);
-  const SNAP_DISTANCE = 25;
-
+  
   const [animationState, setAnimationState] = useState(0);
   const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const PUZZLE_WIDTH = 580;
-  const PUZZLE_HEIGHT = 400;
-
   const queryClient = useQueryClient();
   const [imageObj, setImageObj] = useState<HTMLImageElement | null>(null);
+
+  // Estados para responsividade
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = useMemo(() => windowSize.width < 768, [windowSize.width]);
+
+  // Cálculos de escala baseados no tamanho da tela
+  const scale = useMemo(() => {
+    const baseWidth = 1440; // Largura de referência
+    const currentWidth = windowSize.width;
+    
+    if (isMobile) {
+      // No mobile, escala menor para o guaxinim não ocupar muito espaço
+      return Math.max(0.4, Math.min(0.7, currentWidth / baseWidth * 1.5));
+    }
+    return Math.max(0.6, Math.min(1.2, currentWidth / baseWidth));
+  }, [windowSize.width, isMobile]);
+
+  const STAGE_WIDTH = useMemo(() => {
+    if (isMobile) {
+      return windowSize.width * 0.75; // Ocupa mais espaço no mobile
+    }
+    return Math.min(windowSize.width * 0.7, 900 * scale);
+  }, [windowSize.width, scale, isMobile]);
+
+  const PUZZLE_BASE_WIDTH = 580 * scale;
+  const PUZZLE_BASE_HEIGHT = 400 * scale;
+  const SNAP_DISTANCE = 25 * scale;
+  const PADDING = 16 * scale;
 
   const { mutateAsync: saveResult } = useMutation({
     mutationFn: async () => {
@@ -74,9 +109,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   useEffect(() => {
     const img = new window.Image();
     img.src = contextImage || school;
-    img.onload = () => {
-      setImageObj(img);
-    };
+    img.onload = () => setImageObj(img);
   }, [contextImage]);
 
   useEffect(() => {
@@ -87,24 +120,16 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   }, []);
 
   useEffect(() => {
-    const handleMouseMove = () => {
-      resetInactivityTimeout();
-    };
-
+    const handleMouseMove = () => resetInactivityTimeout();
     resetInactivityTimeout();
     document.addEventListener('mousemove', handleMouseMove);
-
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
-      if (inactivityTimeoutRef.current) {
-        clearTimeout(inactivityTimeoutRef.current);
-      }
+      if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
     };
   }, []);
 
-  useImperativeHandle(ref, () => ({
-    resetGame
-  }));
+  useImperativeHandle(ref, () => ({ resetGame }));
 
   const getPuzzleConfig = () => {
     switch(difficulty) {
@@ -118,30 +143,27 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   const { cols, rows } = getPuzzleConfig();
 
   const resetInactivityTimeout = () => {
-    if (inactivityTimeoutRef.current) {
-      clearTimeout(inactivityTimeoutRef.current);
-    }
-    inactivityTimeoutRef.current = setTimeout(() => {
-      setAnimationState(4);
-    }, 10000);
+    if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
+    inactivityTimeoutRef.current = setTimeout(() => setAnimationState(4), 10000);
   };
   
-  const PIECE_SIZE = Math.min(
-    PUZZLE_WIDTH / cols,
-    PUZZLE_HEIGHT / rows
-  );
+  const PIECE_SIZE = useMemo(() => Math.min(
+    PUZZLE_BASE_WIDTH / cols,
+    PUZZLE_BASE_HEIGHT / rows
+  ), [cols, rows, PUZZLE_BASE_WIDTH, PUZZLE_BASE_HEIGHT]);
 
   const initializePieces = () => {
     const initialPieces: Piece[] = [];
-    const areaGuia = (rows * PIECE_SIZE) + 32;
+    const areaGuiaY = (rows * PIECE_SIZE) + (PADDING * 2);
+    const availableHeight = (rows * PIECE_SIZE + 260 * scale) - PIECE_SIZE - PADDING;
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         initialPieces.push({
           row,
           col,
-          x: Math.random() * (780 - PIECE_SIZE) + 16,
-          y: areaGuia + Math.random() * (200 - PIECE_SIZE),
+          x: Math.random() * (STAGE_WIDTH - PIECE_SIZE - PADDING * 2) + PADDING,
+          y: areaGuiaY + Math.random() * (availableHeight - areaGuiaY),
           id: row * cols + col,
           isPlaced: false,
         });
@@ -152,13 +174,18 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
   useEffect(() => {
     initializePieces();
-  }, [cols, rows, difficulty]);
+  }, [cols, rows, difficulty, scale, STAGE_WIDTH]);
 
-  const generatePuzzlePath = (top: string, right: string, bottom: string, left: string) => {
+  const getPiecePath = useMemo(() => (row: number, col: number) => {
     const size = PIECE_SIZE;
     const neck = size * 0.15;
     const tab = size * 0.3;
     const half = size / 2;
+
+    const top = row > 0 ? "in" : "flat";
+    const right = col < cols - 1 ? "out" : "flat";
+    const bottom = row < rows - 1 ? "out" : "flat";
+    const left = col > 0 ? "in" : "flat";
 
     let path = `M 0 0 `;
     if (top === "flat") path += `H ${size} `;
@@ -175,29 +202,14 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
     path += `Z`;
     return path;
-  };
-
-  const getPiecePath = useMemo(() => (row: number, col: number) => {
-    const right = col < cols - 1 ? "out" : "flat";
-    const bottom = row < rows - 1 ? "out" : "flat";
-    const left = col > 0 ? "in" : "flat";
-    const top = row > 0 ? "in" : "flat";
-
-    return generatePuzzlePath(top, right, bottom, left);
   }, [cols, rows, PIECE_SIZE]);
 
   const handleDragStart = (e: any) => {
     resetInactivityTimeout();
     const id = e.target.id();
-    
-    // Altera o cursor para 'grabbing' durante o arrasto
     const stage = e.target.getStage();
-    if (stage) {
-      const container = stage.container();
-      container.style.cursor = 'grabbing';
-    }
+    if (stage) stage.container().style.cursor = 'grabbing';
 
-    // Move a peça para o topo (z-index)
     setPieces(prev => {
       const piece = prev.find(p => p.id === parseInt(id));
       if (!piece) return prev;
@@ -210,13 +222,8 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     const id = parseInt(e.target.id());
     const newX = e.target.x();
     const newY = e.target.y();
-
-    // Restaura o cursor
     const stage = e.target.getStage();
-    if (stage) {
-      const container = stage.container();
-      container.style.cursor = 'default';
-    }
+    if (stage) stage.container().style.cursor = 'default';
 
     setPieces(prevPieces => {
       const draggedPiece = prevPieces.find(p => p.id === id);
@@ -226,17 +233,14 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
       let finalY = newY;
       let isPlaced = false;
 
-      // Limita o movimento
-      finalX = Math.max(16, Math.min(finalX, WITH_DISTANCE - PIECE_SIZE - 32));
-      finalY = Math.max(16, Math.min(finalY, (rows * PIECE_SIZE + 260) - PIECE_SIZE - 32));
+      const boardHeight = rows * PIECE_SIZE + 260 * scale;
+      finalX = Math.max(PADDING, Math.min(finalX, STAGE_WIDTH - PIECE_SIZE - PADDING));
+      finalY = Math.max(PADDING, Math.min(finalY, boardHeight - PIECE_SIZE - PADDING));
 
-      const correctX = draggedPiece.col * PIECE_SIZE + 16;
-      const correctY = draggedPiece.row * PIECE_SIZE + 16;
+      const correctX = draggedPiece.col * PIECE_SIZE + PADDING;
+      const correctY = draggedPiece.row * PIECE_SIZE + PADDING;
       
-      if (
-        Math.abs(finalX - correctX) < SNAP_DISTANCE &&
-        Math.abs(finalY - correctY) < SNAP_DISTANCE
-      ) {
+      if (Math.abs(finalX - correctX) < SNAP_DISTANCE && Math.abs(finalY - correctY) < SNAP_DISTANCE) {
         finalX = correctX;
         finalY = correctY;
         isPlaced = true;
@@ -247,13 +251,12 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
       if (!isPlaced) {
         const placedPieces = prevPieces.filter(p => p.isPlaced);
         for (const placedPiece of placedPieces) {
-          const isAdjacent = 
-            (Math.abs(placedPiece.row - draggedPiece.row) === 1 && placedPiece.col === draggedPiece.col) ||
-            (Math.abs(placedPiece.col - draggedPiece.col) === 1 && placedPiece.row === draggedPiece.row);
+          const isAdjacent = (Math.abs(placedPiece.row - draggedPiece.row) === 1 && placedPiece.col === draggedPiece.col) ||
+                            (Math.abs(placedPiece.col - draggedPiece.col) === 1 && placedPiece.row === draggedPiece.row);
 
           if (isAdjacent) {
-            const expectedX = draggedPiece.col * PIECE_SIZE + 16;
-            const expectedY = draggedPiece.row * PIECE_SIZE + 16;
+            const expectedX = draggedPiece.col * PIECE_SIZE + PADDING;
+            const expectedY = draggedPiece.row * PIECE_SIZE + PADDING;
             if (Math.abs(finalX - expectedX) < SNAP_DISTANCE && Math.abs(finalY - expectedY) < SNAP_DISTANCE) {
               finalX = expectedX;
               finalY = expectedY;
@@ -266,16 +269,11 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         if (!isPlaced) setAnimationState(3);
       }
 
-      const updatedPieces = prevPieces.map(p =>
-        p.id === id ? { ...p, x: finalX, y: finalY, isPlaced } : p
-      );
-
-      const isComplete = updatedPieces.every(piece => piece.isPlaced);
-      if (isComplete) {
+      const updatedPieces = prevPieces.map(p => p.id === id ? { ...p, x: finalX, y: finalY, isPlaced } : p);
+      if (updatedPieces.every(p => p.isPlaced)) {
         setCompleted(true);
         setPuzzleComplete(true);
       }
-
       return updatedPieces;
     });
   };
@@ -287,63 +285,86 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     if (onReset) onReset();
   };
 
-  const boardHeight = rows * PIECE_SIZE + 260;
+  const boardHeight = rows * PIECE_SIZE + 260 * scale;
+
+  if (isPortrait && windowSize.width < 768) {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#007EB8',
+        color: 'white',
+        textAlign: 'center',
+        padding: '20px',
+        zIndex: 9999
+      }}>
+        <h2>Por favor, gire o seu celular</h2>
+        <p>Este jogo foi feito para ser jogado na horizontal.</p>
+        <div style={{ fontSize: '50px', marginTop: '20px' }}>📱🔄</div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ 
       display: 'flex', 
-      justifyContent: 'space-between', 
+      justifyContent: 'center', 
       alignItems: 'flex-end', 
       width: '100%', 
       height: '100%',
-      padding: '0 20px',
+      padding: isMobile ? `${10 * scale}px` : `${20 * scale}px`,
+      gap: isMobile ? `${10 * scale}px` : `${40 * scale}px`,
       flex: 1,
-      minHeight: 0
+      minHeight: 0,
+      overflow: 'hidden',
+      paddingBottom: isMobile ? '10px' : '20px'
     }}>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         style={{ 
           position: "relative", 
-          width: WITH_DISTANCE, 
+          width: STAGE_WIDTH, 
           height: boardHeight,
-          border: "8px solid #007EB8", 
-          borderRadius: "24px",
+          border: `${8 * scale}px solid #007EB8`, 
+          borderRadius: `${24 * scale}px`,
           backgroundColor: '#abd8ed',
-          boxShadow: "0 4px 8px rgba(0, 126, 184, 0.5)",
-          overflow: 'hidden'
+          boxShadow: `0 ${4 * scale}px ${8 * scale}px rgba(0, 126, 184, 0.5)`,
+          overflow: 'hidden',
+          marginBottom: isMobile ? '0' : `${10 * scale}px`
         }}
       >
-        <Stage width={WITH_DISTANCE} height={boardHeight}>
+        <Stage width={STAGE_WIDTH} height={boardHeight}>
           <Layer>
-            {/* Imagem de fundo guia */}
             {imageObj && (
               <KonvaImage
                 image={imageObj}
                 width={cols * PIECE_SIZE}
                 height={rows * PIECE_SIZE}
-                x={16}
-                y={16}
+                x={PADDING}
+                y={PADDING}
                 opacity={0.3}
               />
             )}
             
-            {/* Grade de guia */}
             {Array.from({ length: rows }).map((_, row) => (
               Array.from({ length: cols }).map((_, col) => (
                 <Path
                   key={`guide-${row}-${col}`}
-                  x={col * PIECE_SIZE + 16}
-                  y={row * PIECE_SIZE + 16}
+                  x={col * PIECE_SIZE + PADDING}
+                  y={row * PIECE_SIZE + PADDING}
                   data={getPiecePath(row, col)}
                   fill="rgba(124, 122, 125, 0.1)"
                   stroke="rgba(80, 78, 81, 0.4)"
-                  strokeWidth={2}
+                  strokeWidth={2 * scale}
                 />
               ))
             ))}
 
-            {/* Peças do puzzle */}
             {pieces.map((piece) => (
               <Group
                 key={piece.id}
@@ -356,18 +377,12 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                 onMouseEnter={(e) => {
                   if (!piece.isPlaced) {
                     const stage = e.target.getStage();
-                    if (stage) {
-                      const container = stage.container();
-                      container.style.cursor = 'grab';
-                    }
+                    if (stage) stage.container().style.cursor = 'grab';
                   }
                 }}
                 onMouseLeave={(e) => {
                   const stage = e.target.getStage();
-                  if (stage) {
-                    const container = stage.container();
-                    container.style.cursor = 'default';
-                  }
+                  if (stage) stage.container().style.cursor = 'default';
                 }}
               >
                 <Group
@@ -376,7 +391,6 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                     const neck = size * 0.15;
                     const tab = size * 0.3;
                     const half = size / 2;
-
                     const top = piece.row > 0 ? "in" : "flat";
                     const right = piece.col < cols - 1 ? "out" : "flat";
                     const bottom = piece.row < rows - 1 ? "out" : "flat";
@@ -384,39 +398,14 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
                     ctx.beginPath();
                     ctx.moveTo(0, 0);
-
-                    // Top edge
                     if (top === "flat") ctx.lineTo(size, 0);
-                    else {
-                      ctx.lineTo(half - neck, 0);
-                      ctx.quadraticCurveTo(half, top === "in" ? tab : -tab, half + neck, 0);
-                      ctx.lineTo(size, 0);
-                    }
-
-                    // Right edge
+                    else { ctx.lineTo(half - neck, 0); ctx.quadraticCurveTo(half, top === "in" ? tab : -tab, half + neck, 0); ctx.lineTo(size, 0); }
                     if (right === "flat") ctx.lineTo(size, size);
-                    else {
-                      ctx.lineTo(size, half - neck);
-                      ctx.quadraticCurveTo(size + (right === "out" ? tab : -tab), half, size, half + neck);
-                      ctx.lineTo(size, size);
-                    }
-
-                    // Bottom edge
+                    else { ctx.lineTo(size, half - neck); ctx.quadraticCurveTo(size + (right === "out" ? tab : -tab), half, size, half + neck); ctx.lineTo(size, size); }
                     if (bottom === "flat") ctx.lineTo(0, size);
-                    else {
-                      ctx.lineTo(half + neck, size);
-                      ctx.quadraticCurveTo(half, size + (bottom === "out" ? tab : -tab), half - neck, size);
-                      ctx.lineTo(0, size);
-                    }
-
-                    // Left edge
+                    else { ctx.lineTo(half + neck, size); ctx.quadraticCurveTo(half, size + (bottom === "out" ? tab : -tab), half - neck, size); ctx.lineTo(0, size); }
                     if (left === "flat") ctx.lineTo(0, 0);
-                    else {
-                      ctx.lineTo(0, half + neck);
-                      ctx.quadraticCurveTo(left === "in" ? tab : -tab, half, 0, half - neck);
-                      ctx.lineTo(0, 0);
-                    }
-
+                    else { ctx.lineTo(0, half + neck); ctx.quadraticCurveTo(left === "in" ? tab : -tab, half, 0, half - neck); ctx.lineTo(0, 0); }
                     ctx.closePath();
                   }}
                 >
@@ -431,7 +420,6 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                     />
                   )}
                 </Group>
-                {/* Borda da peça para melhor visualização */}
                 <Path
                   data={getPiecePath(piece.row, piece.col)}
                   stroke={piece.isPlaced ? "rgba(0,0,0,0)" : "#555"}
@@ -448,10 +436,11 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         justifyContent: 'center',
         alignItems: 'center',
         flexShrink: 0,
-        transform: isMobile ? `scale(${scale * 0.8})` : `scale(${scale * 1.2})`, // Guaxinim menor no mobile
+        transform: isMobile ? `scale(${scale * 0.8})` : `scale(${scale * 1.2})`,
         transition: 'transform 0.3s ease',
-        marginBottom: '-10px', // Faz ele "sentar" na base
-        alignSelf: 'flex-end'
+        marginBottom: '-10px',
+        alignSelf: 'flex-end',
+        mixBlendMode: 'multiply'
       }}>
         <Raccoon animationState={animationState} setAnimationState={setAnimationState} isPaused={completed}/>
       </div>
