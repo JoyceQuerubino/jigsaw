@@ -313,7 +313,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     <div style={{ 
       display: 'flex', 
       justifyContent: 'center', 
-      alignItems: 'flex-end', 
+      alignItems: 'center', 
       width: '100%', 
       height: '100%',
       padding: isMobile ? `${10 * scale}px` : `${20 * scale}px`,
@@ -335,7 +335,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
           backgroundColor: '#abd8ed',
           boxShadow: `0 ${4 * scale}px ${8 * scale}px rgba(0, 126, 184, 0.5)`,
           overflow: 'hidden',
-          marginBottom: isMobile ? '0' : `${10 * scale}px`
+          marginBottom: 0
         }}
       >
         <Stage width={STAGE_WIDTH} height={boardHeight}>
@@ -437,8 +437,9 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         alignItems: 'center',
         flexShrink: 0,
         transform: isMobile ? `scale(${scale * 0.8})` : `scale(${scale * 1.2})`,
+        transformOrigin: 'bottom center',
         transition: 'transform 0.3s ease',
-        marginBottom: '-10px',
+        marginBottom: isMobile ? `${10 * scale}px` : `${20 * scale}px`,
         alignSelf: 'flex-end',
         mixBlendMode: 'multiply'
       }}>
