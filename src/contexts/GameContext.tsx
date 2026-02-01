@@ -11,7 +11,7 @@ interface GameContextData {
   time: number;
   setTime: (time: number) => void;
   isPaused: boolean;
-  setIsPaused: (isPaused: boolean) => void;
+  setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
   isGameStarted: boolean;
   startGame: () => void;
   resetGame: () => void;

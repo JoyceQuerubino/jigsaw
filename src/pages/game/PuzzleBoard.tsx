@@ -60,26 +60,45 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const isMobile = useMemo(() => windowSize.width < 768, [windowSize.width]);
+  const isMobileLandscape = useMemo(() => !isPortrait && windowSize.height < 600, [isPortrait, windowSize.height]);
+
+  const isMobile = useMemo(() => {
+    // Detecta se é mobile por largura ou se é um dispositivo em landscape com pouca altura
+    return windowSize.width < 768 || isMobileLandscape;
+  }, [windowSize.width, isMobileLandscape]);
 
   // Cálculos de escala baseados no tamanho da tela
   const scale = useMemo(() => {
     const baseWidth = 1440; // Largura de referência
+    const baseHeight = 900; // Altura de referência
     const currentWidth = windowSize.width;
+    const currentHeight = windowSize.height;
+    
+    // Calcula a escala baseada tanto na largura quanto na altura
+    const scaleX = currentWidth / baseWidth;
+    const scaleY = currentHeight / baseHeight;
+    const baseScale = Math.min(scaleX, scaleY);
     
     if (isMobile) {
-      // No mobile, escala menor para o guaxinim não ocupar muito espaço
-      return Math.max(0.4, Math.min(0.7, currentWidth / baseWidth * 1.5));
+      if (isMobileLandscape) {
+        // Landscape mobile - escala bem reduzida para as peças caberem na altura
+        return Math.max(0.25, Math.min(0.4, baseScale * 1.0));
+      }
+      // No mobile portrait, escala menor para o guaxinim não ocupar muito espaço
+      return Math.max(0.4, Math.min(0.7, baseScale * 1.5));
     }
-    return Math.max(0.6, Math.min(1.2, currentWidth / baseWidth));
-  }, [windowSize.width, isMobile]);
+    return Math.max(0.6, Math.min(1.2, baseScale));
+  }, [windowSize.width, windowSize.height, isMobile, isPortrait, isMobileLandscape]);
 
   const STAGE_WIDTH = useMemo(() => {
     if (isMobile) {
-      return windowSize.width * 0.75; // Ocupa mais espaço no mobile
+      if (isMobileLandscape) {
+        return windowSize.width * 0.8; // Aumentado para 80% conforme solicitado
+      }
+      return windowSize.width * 0.75; // Ocupa mais espaço no mobile portrait
     }
     return Math.min(windowSize.width * 0.7, 900 * scale);
-  }, [windowSize.width, scale, isMobile]);
+  }, [windowSize.width, scale, isMobile, isPortrait, isMobileLandscape]);
 
   const PUZZLE_BASE_WIDTH = 580 * scale;
   const PUZZLE_BASE_HEIGHT = 400 * scale;
@@ -152,10 +171,28 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     PUZZLE_BASE_HEIGHT / rows
   ), [cols, rows, PUZZLE_BASE_WIDTH, PUZZLE_BASE_HEIGHT]);
 
+  // Altura extra para as peças (o "tabuleiro" de peças soltas)
+  const TRAY_HEIGHT = useMemo(() => {
+    if (!isPortrait && windowSize.height < 500) {
+      return 180 * scale; // Reduz o espaço das peças soltas em landscape mobile
+    }
+    return 260 * scale;
+  }, [scale, isPortrait, windowSize.height]);
+
+  const boardHeight = useMemo(() => {
+    if (isMobileLandscape) {
+      return windowSize.height * 0.55; // Aproximadamente 50-55% da altura da tela
+    }
+    const baseBoardHeight = (rows * PIECE_SIZE) + TRAY_HEIGHT;
+    // Garante que a altura do tabuleiro nunca ultrapasse a altura da tela menos o padding
+    const maxAllowedHeight = windowSize.height - (isMobile ? 40 : 80);
+    return Math.min(baseBoardHeight, maxAllowedHeight);
+  }, [rows, PIECE_SIZE, TRAY_HEIGHT, windowSize.height, isMobile, isMobileLandscape]);
+
   const initializePieces = () => {
     const initialPieces: Piece[] = [];
     const areaGuiaY = (rows * PIECE_SIZE) + (PADDING * 2);
-    const availableHeight = (rows * PIECE_SIZE + 260 * scale) - PIECE_SIZE - PADDING;
+    const availableHeight = boardHeight - PIECE_SIZE - PADDING;
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -174,7 +211,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
   useEffect(() => {
     initializePieces();
-  }, [cols, rows, difficulty, scale, STAGE_WIDTH]);
+  }, [cols, rows, difficulty, scale, STAGE_WIDTH, boardHeight]);
 
   const getPiecePath = useMemo(() => (row: number, col: number) => {
     const size = PIECE_SIZE;
@@ -233,7 +270,6 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
       let finalY = newY;
       let isPlaced = false;
 
-      const boardHeight = rows * PIECE_SIZE + 260 * scale;
       finalX = Math.max(PADDING, Math.min(finalX, STAGE_WIDTH - PIECE_SIZE - PADDING));
       finalY = Math.max(PADDING, Math.min(finalY, boardHeight - PIECE_SIZE - PADDING));
 
@@ -284,8 +320,6 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     initializePieces();
     if (onReset) onReset();
   };
-
-  const boardHeight = rows * PIECE_SIZE + 260 * scale;
 
   if (isPortrait && windowSize.width < 768) {
     return (
@@ -436,7 +470,9 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         justifyContent: 'center',
         alignItems: 'center',
         flexShrink: 0,
-        transform: isMobile ? `scale(${scale * 0.8})` : `scale(${scale * 1.2})`,
+        transform: isMobile 
+          ? (!isPortrait && windowSize.height < 500 ? `scale(${scale * 0.7})` : `scale(${scale * 0.8})`)
+          : `scale(${scale * 1.2})`,
         transformOrigin: 'bottom center',
         transition: 'transform 0.3s ease',
         marginBottom: isMobile ? `${10 * scale}px` : `${20 * scale}px`,
