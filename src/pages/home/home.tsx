@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import useSound from 'use-sound';
 import ButtonImage from "../../components/ButtonImage";
 import { RaccoonHome } from "../../components/animations/RaccoonHome";
-import ambienteSound from "../../assets/sounds/ambiente2.mp3";
+import ambienteSound from "../../assets/sounds/ambiente.wav";
 import { SoundButton } from "../../components/SoundButton/SoundButton";
 import { useSoundContext } from "../../contexts/SoundContext";
 

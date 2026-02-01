@@ -32,6 +32,10 @@ export function Credits() {
               <h3>Personagem</h3>
               <p>Otavio Pozzebon Scalari</p>
             </div>
+            <div className="credits-col-row">
+              <h3>Música</h3>
+              <p>Caio Cigagna de Godoy</p>
+            </div>
           </div>
         </CreditsCard>
     </div>
