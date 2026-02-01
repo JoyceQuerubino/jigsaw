@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TimerControlButton } from '../TimerControlButton';
 import { useGame } from '../../contexts/GameContext';
 import './styles.css';
