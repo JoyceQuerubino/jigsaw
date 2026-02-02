@@ -3,6 +3,7 @@ import { useState } from "react";
 import btnBack from "../../assets/images/slider/btn-back.png";
 import btnGo from "../../assets/images/slider/btn-go.png";
 import { useGetUserResults } from "../../hooks/useGetUserResults";
+import { CreditsCard } from "../../components/CreditsCard/CreditsCard";
 
 export function Results() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,35 +39,37 @@ export function Results() {
           <img src={btnBack} alt="Voltar" />
         </button>
 
-        <div className="results-background">
-          <div className="results-content-wrapper">
-            <div className="results-columns">
-              <div className="results-column">
-                <h3>Jogador</h3>
-                {currentItems?.map((item, index) => (
-                  <p key={`username-${index}`}>{item.username}</p>
-                ))}
+        <div className="results-credits-card">
+          <CreditsCard title="RESULTADOS">
+            <div className="results-content-wrapper">
+              <div className="results-columns">
+                <div className="results-column">
+                  <h3>Jogador</h3>
+                  {currentItems?.map((item, index) => (
+                    <p key={`username-${index}`}>{item.username}</p>
+                  ))}
+                </div>
+
+                <div className="results-column">
+                  <h3>Jogo</h3>
+                  {currentItems?.map((item, index) => (
+                    <p key={`game-${index}`}>{item.gameTitile}</p>
+                  ))}
+                </div>
+
+                <div className="results-column">
+                  <h3>Tempo (min:s)</h3>
+                  {currentItems?.map((item, index) => (
+                    <p key={`time-${index}`}>{item.time}</p>
+                  ))}
+                </div>
               </div>
 
-              <div className="results-column">
-                <h3>Jogo</h3>
-                {currentItems?.map((item, index) => (
-                  <p key={`game-${index}`}>{item.gameTitile}</p>
-                ))}
-              </div>
-
-              <div className="results-column">
-                <h3>Tempo (min:s)</h3>
-                {currentItems?.map((item, index) => (
-                  <p key={`time-${index}`}>{item.time}</p>
-                ))}
+              <div className="pagination-info">
+                Página {currentPage} de {totalPages}
               </div>
             </div>
-
-            <div className="pagination-info">
-              Página {currentPage} de {totalPages}
-            </div>
-          </div>
+          </CreditsCard>
         </div>
 
         <button 
