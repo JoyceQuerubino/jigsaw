@@ -24,4 +24,5 @@ export type userResult = {
   username: string;
   gameTitile: string;
   time: string;
+  difficulty?: "easy" | "medium" | "hard";
 }

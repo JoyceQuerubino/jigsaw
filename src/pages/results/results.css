@@ -96,7 +96,7 @@
 
 .results-column h3 {
   color: white;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 800;
   margin-bottom: 16px;
   text-align: center;
@@ -111,4 +111,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+.results-white {
+  flex: 1;
+  display: flex;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }

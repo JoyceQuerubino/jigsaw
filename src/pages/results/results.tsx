@@ -5,6 +5,16 @@ import btnGo from "../../assets/images/slider/btn-go.png";
 import btnQuebraCab from "../../assets/images/my-games/btn-quebra-cab.png";
 import { useGetUserResults } from "../../hooks/useGetUserResults";
 import { CreditsCard } from "../../components/CreditsCard/CreditsCard";
+import type { userResult } from "../../services/types";
+
+function getDifficultyLabel(difficulty?: userResult["difficulty"]): string {
+  switch (difficulty) {
+    case "easy": return "Fácil";
+    case "medium": return "Médio";
+    case "hard": return "Difícil";
+    default: return "-";
+  }
+}
 
 export function Results() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,6 +71,13 @@ export function Results() {
                 <h3>Tema</h3>
                   {currentItems?.map((item, index) => (
                     <p key={`game-${index}`}>{item.gameTitile}</p>
+                  ))}
+                </div>
+
+                <div className="results-column">
+                  <h3>Dificuldade</h3>
+                  {currentItems?.map((item, index) => (
+                    <p key={`difficulty-${index}`}>{getDifficultyLabel(item.difficulty)}</p>
                   ))}
                 </div>
 
