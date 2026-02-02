@@ -1,7 +1,7 @@
 import "./new-game.css";
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation, useMatches } from "react-router"; 
+import { useNavigate, useLocation, useOutletContext } from "react-router";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { Modal } from "../../components/Modal/Modal";
@@ -10,14 +10,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reactQueryConsts } from "../../hooks/reactQueryConstantes";
 import { addGame, editGameById, deleteGameById, getGameById } from "../../services/storage-services";
 import { GameType } from "../../services/types";
-
-interface RouteHandle {
-  title: string;
-}
+import type { GameLayoutOutletContext } from "../_layouts/game-layout/game-layout";
 
 export function NewGame() {
   const location = useLocation();
-  const matches = useMatches();
+  const { setTitleOverride } = useOutletContext<GameLayoutOutletContext>();
   const [theme, setTheme] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -34,20 +31,12 @@ export function NewGame() {
       setTheme(gameData.title);
       setSelectedImage(gameData.image);
       setEditingGameId(gameData.id);
-      
-      // Atualiza o título da rota
-      const lastMatch = matches[matches.length - 1];
-      if (lastMatch.handle) {
-        (lastMatch.handle as RouteHandle).title = "Editar Jogo";
-      }
+      setTitleOverride("Editar Jogo");
     } else {
-      // Atualiza o título da rota
-      const lastMatch = matches[matches.length - 1];
-      if (lastMatch.handle) {
-        (lastMatch.handle as RouteHandle).title = "Novo Jogo";
-      }
+      setTitleOverride("Novo Jogo");
     }
-  }, [location.state, matches]);
+    return () => setTitleOverride(null);
+  }, [location.state, setTitleOverride]);
 
   const { mutateAsync: saveGameFn } = useMutation({
     mutationFn: async (gameData: GameType) => {

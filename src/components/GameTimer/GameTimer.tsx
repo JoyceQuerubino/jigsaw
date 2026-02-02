@@ -14,10 +14,6 @@ export const GameTimer: React.FC<GameTimerProps> = () => {
     setIsPaused((value) => !value)
   }
 
-  // useEffect(() => {
-  //   console.log("MUDOU", isPaused)
-  // },[isPaused] )
-
   return (
     <div className="game-timer-container">
       <span className="game-timer-text">
