@@ -3,6 +3,9 @@
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 0; /* permite encolher em telas menores sem empurrar o botão direito */
+  gap: 0.25rem;
+  margin-top: -1.5rem; /* sobe levemente o carrossel mantendo centralizado */
 }
 
 .inner {
@@ -71,10 +74,12 @@
 
 .carousel {
   overflow: hidden;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 .nav-button {
+  flex-shrink: 0;
   background: none;
   border: none;
   cursor: pointer;
@@ -92,4 +97,19 @@
 
 .nav-button:hover {
   opacity: 0.8;
+}
+
+/* Telas menores: botões menores para os dois ícones continuarem visíveis */
+@media (max-width: 768px) {
+  .nav-button img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-button img {
+    width: 36px;
+    height: 36px;
+  }
 }

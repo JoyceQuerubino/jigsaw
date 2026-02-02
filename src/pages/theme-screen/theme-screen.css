@@ -1,6 +1,7 @@
 .theme-container{
     width: 100%;
-    max-width: 960px;
+    max-width: 1360px; /* 960px limitava a 2 cards; 1360px permite 3 cards como no ModelScreen */
+    min-width: 0; /* permite encolher em telas menores e manter os botões do carrossel visíveis */
     height: 100%;
     margin: 0 auto;
     display: flex;
