@@ -2,6 +2,7 @@ import "./results.css";
 import { useState } from "react";
 import btnBack from "../../assets/images/slider/btn-back.png";
 import btnGo from "../../assets/images/slider/btn-go.png";
+import btnQuebraCab from "../../assets/images/my-games/btn-quebra-cab.png";
 import { useGetUserResults } from "../../hooks/useGetUserResults";
 import { CreditsCard } from "../../components/CreditsCard/CreditsCard";
 
@@ -42,6 +43,12 @@ export function Results() {
         <div className="results-credits-card">
           <CreditsCard title="RESULTADOS">
             <div className="results-content-wrapper">
+              <div className="theme-header">
+                <button className="theme-button" disabled>
+                  <img src={btnQuebraCab} alt="Quebra cabeças" />
+                </button>
+              </div>
+
               <div className="results-columns">
                 <div className="results-column">
                   <h3>Jogador</h3>
@@ -51,7 +58,7 @@ export function Results() {
                 </div>
 
                 <div className="results-column">
-                  <h3>Jogo</h3>
+                <h3>Tema</h3>
                   {currentItems?.map((item, index) => (
                     <p key={`game-${index}`}>{item.gameTitile}</p>
                   ))}
