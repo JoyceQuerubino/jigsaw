@@ -406,6 +406,17 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
                 x={piece.x}
                 y={piece.y}
                 draggable={!piece.isPlaced}
+                dragBoundFunc={(pos) => {
+                  // Limita a posição X dentro do quadrado azul
+                  const newX = Math.max(PADDING, Math.min(pos.x, STAGE_WIDTH - PIECE_SIZE - PADDING));
+                  // Limita a posição Y dentro do quadrado azul
+                  const newY = Math.max(PADDING, Math.min(pos.y, boardHeight - PIECE_SIZE - PADDING));
+                  
+                  return {
+                    x: newX,
+                    y: newY
+                  };
+                }}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onMouseEnter={(e) => {
