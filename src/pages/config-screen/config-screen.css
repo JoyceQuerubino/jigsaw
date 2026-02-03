@@ -90,5 +90,58 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
+  margin-bottom: 16px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
   margin-bottom: 48px;
-} 
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  color: #66525B;
+  position: relative;
+}
+
+.toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 30px;
+  transition: background-color 0.3s;
+}
+
+.toggle-switch::before {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: white;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-switch {
+  background-color: #007EB8;
+}
+
+.toggle-checkbox:checked + .toggle-switch::before {
+  transform: translateX(30px);
+}

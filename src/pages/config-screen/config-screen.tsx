@@ -19,6 +19,7 @@ export function ConfigScreen() {
   const { setGameData } = useGame();
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('medium');
   const [playerName, setPlayerName] = useState<string>("");
+  const [showTimer, setShowTimer] = useState<boolean>(true);
 
   function handleNavigateTo(screen: string) {
     if (!playerName.trim()) {
@@ -30,7 +31,8 @@ export function ConfigScreen() {
       difficulty: selectedDifficulty,
       playerName: playerName,
       puzzleImage: puzzleImage ? decodeURIComponent(puzzleImage) : "",
-      title: title ? decodeURIComponent(title) : ""
+      title: title ? decodeURIComponent(title) : "",
+      showTimer: showTimer
     });
 
     navigate(screen);
@@ -67,6 +69,19 @@ export function ConfigScreen() {
             value={playerName}
             onChange={setPlayerName}
           />
+        </div>
+
+        <div className="toggle-container">
+          <label className="toggle-label">
+            <span>Mostrar cronômetro</span>
+            <input
+              type="checkbox"
+              checked={showTimer}
+              onChange={(e) => setShowTimer(e.target.checked)}
+              className="toggle-checkbox"
+            />
+            <span className="toggle-switch"></span>
+          </label>
         </div>
 
         <button

@@ -5,9 +5,10 @@ interface GameContextData {
   playerName: string;
   puzzleImage: string;
   title: string;
+  showTimer: boolean;
   isPuzzleComplete: boolean;
   setPuzzleComplete: (isComplete: boolean) => void;
-  setGameData: (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string }) => void;
+  setGameData: (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string, showTimer: boolean }) => void;
   time: number;
   setTime: (time: number) => void;
   isPaused: boolean;
@@ -29,7 +30,8 @@ export function GameProvider({ children }: GameProviderProps) {
     difficulty: 'medium' as 'easy' | 'medium' | 'hard',
     playerName: '',
     puzzleImage: '',
-    title: ''
+    title: '',
+    showTimer: true
   });
   const [isPuzzleComplete, setIsPuzzleComplete] = useState(false);
   const [time, setTime] = useState(0);
@@ -52,7 +54,7 @@ export function GameProvider({ children }: GameProviderProps) {
     };
   }, [isGameStarted, isPaused, isPuzzleComplete]);
 
-  const handleSetGameData = (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string }) => {
+  const handleSetGameData = (data: { difficulty: 'easy' | 'medium' | 'hard', playerName: string, puzzleImage: string, title: string, showTimer: boolean }) => {
     setGameData(data);
   };
 
