@@ -37,7 +37,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   const [completed, setCompleted] = useState(false);
   const { puzzleImage: contextImage, title, playerName, setIsPaused, formatTime, time, setTime, setPuzzleComplete } = useGame();
   const { isSoundEnabled } = useSoundContext();
-  const [playEncaixe] = useSound(encaixeSound);
+  const [playEncaixe] = useSound(encaixeSound, { volume: 0.4 });
   
   const [animationState, setAnimationState] = useState(0);
   const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -93,11 +93,11 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
   const STAGE_WIDTH = useMemo(() => {
     if (isMobile) {
       if (isMobileLandscape) {
-        return windowSize.width * 0.8; // Aumentado para 80% conforme solicitado
+        return windowSize.width * 0.88; // Mais espaço no landscape
       }
-      return windowSize.width * 0.75; // Ocupa mais espaço no mobile portrait
+      return windowSize.width * 0.88; // Mais espaço no mobile portrait
     }
-    return Math.min(windowSize.width * 0.7, 900 * scale);
+    return Math.min(windowSize.width * 0.82, 1000 * scale); // Board mais largo no desktop
   }, [windowSize.width, scale, isMobile, isPortrait, isMobileLandscape]);
 
   const PUZZLE_BASE_WIDTH = 580 * scale;
@@ -190,6 +190,9 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     return Math.min(baseBoardHeight, maxAllowedHeight);
   }, [rows, PIECE_SIZE, TRAY_HEIGHT, windowSize.height, isMobile, isMobileLandscape]);
 
+  // Guarda dimensões anteriores para, no resize, apenas reescalar posições em vez de reinicializar
+  const layoutRef = useRef<{ STAGE_WIDTH: number; boardHeight: number; configKey: string } | null>(null);
+
   const initializePieces = () => {
     const initialPieces: Piece[] = [];
     const areaGuiaY = (rows * PIECE_SIZE) + (PADDING * 2);
@@ -210,9 +213,53 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
     setPieces(initialPieces);
   };
 
+  // Só (re)inicializa peças quando a configuração do puzzle muda (cols, rows, difficulty)
   useEffect(() => {
     initializePieces();
-  }, [cols, rows, difficulty, scale, STAGE_WIDTH, boardHeight]);
+  }, [cols, rows, difficulty]);
+
+  // No resize da janela: reescala posições das peças em vez de embaralhar de novo
+  useEffect(() => {
+    const configKey = `${cols}-${rows}-${difficulty}`;
+    const areaGuiaY = (rows * PIECE_SIZE) + (PADDING * 2);
+    const minX = PADDING;
+    const maxX = STAGE_WIDTH - PIECE_SIZE - PADDING;
+    const minY = areaGuiaY;
+    const maxY = boardHeight - PIECE_SIZE - PADDING;
+
+    if (!layoutRef.current) {
+      layoutRef.current = { STAGE_WIDTH, boardHeight, configKey };
+      return;
+    }
+
+    const prev = layoutRef.current;
+    layoutRef.current = { STAGE_WIDTH, boardHeight, configKey };
+
+    setPieces((prevPieces) => {
+      if (prevPieces.length === 0) return prevPieces;
+      // Mudou a configuração do jogo (nova partida) — posições já foram definidas por initializePieces
+      if (prev.configKey !== configKey) return prevPieces;
+      // Resize puro: reescalar posições para manter layout proporcional
+      if (prev.STAGE_WIDTH === STAGE_WIDTH && prev.boardHeight === boardHeight) return prevPieces;
+
+      return prevPieces.map((p) => {
+        if (p.isPlaced) {
+          return {
+            ...p,
+            x: p.col * PIECE_SIZE + PADDING,
+            y: p.row * PIECE_SIZE + PADDING,
+          };
+        }
+        const newX = (p.x / prev.STAGE_WIDTH) * STAGE_WIDTH;
+        const newY = (p.y / prev.boardHeight) * boardHeight;
+        return {
+          ...p,
+          x: Math.max(minX, Math.min(maxX, newX)),
+          y: Math.max(minY, Math.min(maxY, newY)),
+        };
+      });
+    });
+  }, [STAGE_WIDTH, boardHeight, PIECE_SIZE, PADDING, cols, rows, difficulty]);
 
   const getPiecePath = useMemo(() => (row: number, col: number) => {
     const size = PIECE_SIZE;
@@ -483,11 +530,10 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         alignItems: 'center',
         flexShrink: 0,
         transform: isMobile 
-          ? (!isPortrait && windowSize.height < 500 ? `scale(${scale * 0.7})` : `scale(${scale * 0.8})`)
-          : `scale(${scale * 1.2})`,
+          ? (!isPortrait && windowSize.height < 500 ? `scale(${scale * 0.78})` : `scale(${scale * 0.88})`)
+          : `scale(${scale * 1.28})`,
         transformOrigin: 'bottom center',
         transition: 'transform 0.3s ease',
-        marginBottom: isMobile ? `${10 * scale}px` : `${20 * scale}px`,
         alignSelf: 'flex-end',
         mixBlendMode: 'multiply'
       }}>

@@ -36,7 +36,7 @@ export const tutorialData: TutorialType[] = [
   },
   {
     id: 3,
-    title: "Como editar meus atividades?",
+    title: "Como editar minhas atividades?",
     text: 'Entre em "Meus Jogos", por padrão, será selecionado o formato de quebra-cabeças. Em seguida, clique no jogo que deseja editar, assim poderá mudar o seu nome e imagem.',
   },
   {

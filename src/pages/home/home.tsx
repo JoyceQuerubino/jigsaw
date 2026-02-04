@@ -13,7 +13,7 @@ export function Home() {
   const { isSoundEnabled } = useSoundContext();
   const [playAmbiente, { stop }] = useSound(ambienteSound, {
     loop: true,
-    volume: 0.1
+    volume: 0.45
   });
 
   useEffect(() => {

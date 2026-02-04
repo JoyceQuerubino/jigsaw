@@ -50,7 +50,7 @@ export const Raccoon = ({animationState, setAnimationState, isPaused = false}: R
 
 
   return (
-    <div style={{ width: 300, height: 400,  flexShrink: 0,}}>
+    <div style={{ width: 330, height: 440, flexShrink: 0 }}>
       <RiveComponent 
         style={{ 
           backgroundColor: "transparent",
