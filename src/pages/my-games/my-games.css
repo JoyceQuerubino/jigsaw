@@ -32,9 +32,11 @@
   background: none;
   border: none;
   transition: transform 0.2s ease;
-  width: 288px;
+  width: 220px;
   height: auto;
   opacity: 0.8;
+  margin-top: 24px;
+  margin-left: 1rem;
 }
 
 .my-game-quebra-button img {
