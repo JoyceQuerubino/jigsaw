@@ -23,7 +23,30 @@ export function Tutorial() {
           <CreditsCard title="TUTORIAL">
             <div className="tutorial-content-wrapper">
             <h2 className="tutorial-step-title">{tutorialData[steps].title}</h2>
-            <p className="tutorial-background-texts">{tutorialData[steps].text}</p>
+            {tutorialData[steps]?.text && (
+              <p className="tutorial-background-texts">{tutorialData[steps].text}</p>
+            )}
+            {tutorialData[steps]?.image && (
+              <div className="tutorial-step-image-wrapper">
+                <img
+                  src={tutorialData[steps]?.image}
+                  alt=""
+                  className="tutorial-step-image"
+                />
+              </div>
+            )}
+            {tutorialData[steps]?.images && tutorialData[steps].images!.length > 0 && (
+              <div className="tutorial-step-images-row">
+                {tutorialData[steps].images!.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt=""
+                    className="tutorial-step-image"
+                  />
+                ))}
+              </div>
+            )}
             {tutorialData[steps].list && (
               <ul className="tutorial-list">
                 {tutorialData[steps].list.map((item, index) => (

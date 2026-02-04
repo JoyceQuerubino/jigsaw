@@ -16,11 +16,79 @@
   height: 100%;
 }
 
+/* Quadrado laranja com tamanho consistente e responsivo: baseado na viewport, independente do item ou imagens */
 .tutorial-credits-card {
   flex: 1;
   display: flex;
-  min-height: 500px;
+  min-height: max(420px, 52vh);
+  height: min(72vh, 100%);
+  max-height: 100%;
   min-width: 700px;
+}
+
+.tutorial-credits-card .credits-white {
+  max-width: 1200px;
+}
+
+/* Permite o card encolher até o mínimo; sem min-height: 0 a cadeia cresceria com o conteúdo (ex.: imagem única) */
+.tutorial-credits-card .credits-content,
+.tutorial-credits-card .credits-white,
+.tutorial-credits-card .credits-brow,
+.tutorial-credits-card .credits-yellow {
+  min-height: 0;
+}
+
+/* Faz o conteúdo do tutorial preencher o quadrado laranja para que % e flex sigam o pai */
+.tutorial-credits-card .credits-orange {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.tutorial-credits-card .tutorial-content-wrapper {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Imagem única (ex.: "Como aplicar atividades?"): até 80% do laranja; cap em vh para não estourar a tela */
+.tutorial-step-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+  min-height: 0;
+  flex: 0 1 auto;
+  max-height: min(80%, 55vh);
+}
+
+.tutorial-step-image-wrapper .tutorial-step-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.tutorial-step-images-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 0;
+  flex: 0 1 auto;
+}
+
+.tutorial-step-images-row .tutorial-step-image {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: fill;
+  border-radius: 8px;
 }
 
 
@@ -30,7 +98,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 0 1rem;
   scrollbar-width: thin;
   scrollbar-color: #66525B rgba(102, 82, 91, 0.2);
 }

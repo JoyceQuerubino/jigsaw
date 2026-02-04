@@ -1,8 +1,16 @@
-type TutorialType = {
+import howAddImg from "../../assets/images/tutorial/how-add.png";
+import howCreateImg from "../../assets/images/tutorial/how-create.png";
+import howCreate2Img from "../../assets/images/tutorial/how-create2.png";
+import howEditImg from "../../assets/images/tutorial/how-edit.png";
+import howEdit2Img from "../../assets/images/tutorial/how-edit2.png";
+
+export type TutorialType = {
   id: number;
   title: string;
   text?: string;
   list?: string[];
+  image?: string;
+  images?: string[];
 };
 
 const listTips = [
@@ -28,16 +36,19 @@ export const tutorialData: TutorialType[] = [
     id: 1,
     title: "Como aplicar atividades?",
     text: "Utilize os modelos de atividades prontas (em Jogar) ou desenvolva suas próprias atividades (em Meus Jogos).",
+    image: howAddImg,
   },
   {
     id: 2,
     title: "Como criar atividades?",
     text: 'Entre em "Meus Jogos", por padrão, será selecionado o formato de quebra-cabeças. Em seguida, clique em "Novo Jogo", para que possa nomear e inserir a imagem da atividade de quebra-cabeças.',
+    images: [howCreateImg, howCreate2Img],
   },
   {
     id: 3,
     title: "Como editar minhas atividades?",
     text: 'Entre em "Meus Jogos", por padrão, será selecionado o formato de quebra-cabeças. Em seguida, clique no jogo que deseja editar, assim poderá mudar o seu nome e imagem.',
+    images: [howEditImg, howEdit2Img],
   },
   {
     id: 4,
