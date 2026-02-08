@@ -94,6 +94,17 @@ export function NewGame() {
     });
   }
 
+  function handlePlayGame() {
+    if (!theme || !selectedImage) {
+      alert("Selecione a imagem e digite o tema para jogar.");
+      return;
+    }
+
+    const encodedImage = encodeURIComponent(selectedImage);
+    const encodedTitle = encodeURIComponent(theme);
+    navigate(`/config/${encodedImage}/${encodedTitle}`);
+  }
+
   return (
     <div className="new-game-screen-container">
       <div className="new-game-first-container">
@@ -114,27 +125,27 @@ export function NewGame() {
       </div>
 
       <div className="new-game-second-wrapper">
-        <div className="new-game-second-container">
-          <div className="new-game-second-top">
-            <Input
-              label="Tema:"
-              placeholder="Digite o tema"
-              value={theme}
-              onChange={setTheme}
-            />
-
-            <div>
-              <Button
-                text={selectedImage ? "Trocar Imagem" : "Selecionar Imagem"}
-                onClick={() => setIsModalOpen(true)}
-                imageWidth="268px"
-                imageHeight="62px"
-              />
-            </div>
-          </div>
-
+        <div className="new-game-second-container" style={{ justifyContent: 'space-between' }}>
           <div>
-            <div style={{ display: 'flex', gap: '1rem',   marginTop: 48, justifyContent: "center" }}>
+            <div className="new-game-second-top">
+              <Input
+                label="Tema:"
+                placeholder="Digite o tema"
+                value={theme}
+                onChange={setTheme}
+              />
+
+              <div>
+                <Button
+                  text={selectedImage ? "Trocar Imagem" : "Selecionar Imagem"}
+                  onClick={() => setIsModalOpen(true)}
+                  imageWidth="268px"
+                  imageHeight="62px"
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem', marginTop: 48, justifyContent: "center" }}>
               <Button
                 text={editingGameId ? "Salvar Alterações" : "Salvar"}
                 onClick={handleNavigateTo}
@@ -152,6 +163,17 @@ export function NewGame() {
               )}
             </div>
           </div>
+
+          {editingGameId && (
+            <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '1rem' }}>
+              <Button
+                text="Jogar"
+                onClick={handlePlayGame}
+                imageWidth="268px"
+                imageHeight="68px"
+              />
+            </div>
+          )}
         </div>
       </div>
 
