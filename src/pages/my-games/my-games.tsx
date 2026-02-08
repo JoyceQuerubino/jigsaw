@@ -10,18 +10,21 @@ export function MyGames() {
   const navigate = useNavigate();
   const { data } = useGetGames();
 
+  // Filtra apenas os jogos que não são padrões
+  const userGames = data?.filter(game => !game.isDefault) || [];
+
   function handleNavigateTo(screen: string) {
     navigate(screen);
   }
 
   function handleGameSelect(card: { title: string; id: string; image: string }) {
-    navigate("/new-game", { 
-      state: { 
+    navigate("/new-game", {
+      state: {
         gameData: {
           ...card,
           type: "Quebra-cabeças",
         } as GameType
-      } 
+      }
     });
   }
 
@@ -31,12 +34,16 @@ export function MyGames() {
         <img src={btnQuebraCab} alt="Jogar" />
       </button>
 
-      {data && (
+      {userGames.length > 0 ? (
         <div className="slider-container">
-          <Slider 
-            cardsData={data} 
+          <Slider
+            cardsData={userGames}
             onNavigate={handleGameSelect}
           />
+        </div>
+      ) : (
+        <div className="no-games-message">
+          <p>Você ainda não criou nenhum jogo,{'\n'}crie um Novo Jogo.</p>
         </div>
       )}
 
