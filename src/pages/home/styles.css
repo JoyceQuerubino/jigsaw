@@ -32,6 +32,67 @@ body {
     z-index: 1000;
 }
 
+.logo-container {
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+    z-index: 1000;
+}
+
+.logo-autilearn {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Logo responsivo para telas maiores */
+@media (min-width: 1200px) {
+    .logo-autilearn {
+        width: 250px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .logo-autilearn {
+        width: 300px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .logo-autilearn {
+        width: 350px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .logo-autilearn {
+        width: 400px;
+    }
+}
+
+/* Logo responsivo para telas menores */
+@media (max-width: 768px) {
+    .logo-container {
+        top: 0.5rem;
+        left: 1rem;
+    }
+
+    .logo-autilearn {
+        width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-container {
+        top: 0.5rem;
+        left: 0.5rem;
+    }
+
+    .logo-autilearn {
+        width: 120px;
+    }
+}
+
 .menu-container {
     display: flex;
     justify-content: center;

@@ -83,7 +83,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  gap: 16px;
+  gap: 12px;
 }
 
 .results-column {
@@ -96,21 +96,27 @@
 
 .results-column h3 {
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   text-align: center;
 }
 
 .results-column p {
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   margin: 8px 0;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+/* Coluna de data com largura menor */
+.results-column:last-child {
+  flex: 0.8;
+  min-width: 80px;
 }
 
 .results-white {

@@ -16,16 +16,38 @@ function getDifficultyLabel(difficulty?: userResult["difficulty"]): string {
   }
 }
 
+function formatDate(dateString?: string): string {
+  if (!dateString) return "-";
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "-";
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear()).slice(-2);
+  return `${day}/${month}/${year}`;
+}
+
 export function Results() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
   const { data } = useGetUserResults();
 
-  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
+  // Ordenar por data mais recente
+  const sortedData = data?.sort((a, b) => {
+    // Colocar itens sem data no final
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateB - dateA; // Mais recente primeiro
+  });
+
+  const totalPages = sortedData ? Math.ceil(sortedData.length / itemsPerPage) : 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = data?.slice(startIndex, endIndex);
+  const currentItems = sortedData?.slice(startIndex, endIndex);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -85,6 +107,13 @@ export function Results() {
                   <h3>Tempo (min:s)</h3>
                   {currentItems?.map((item, index) => (
                     <p key={`time-${index}`}>{item.time}</p>
+                  ))}
+                </div>
+
+                <div className="results-column">
+                  <h3>Data</h3>
+                  {currentItems?.map((item, index) => (
+                    <p key={`date-${index}`}>{formatDate(item.date)}</p>
                   ))}
                 </div>
               </div>

@@ -7,6 +7,7 @@ import { RaccoonHome } from "../../components/animations/RaccoonHome";
 import ambienteSound from "../../assets/sounds/ambiente.wav";
 import { SoundButton } from "../../components/SoundButton/SoundButton";
 import { useSoundContext } from "../../contexts/SoundContext";
+import logoAutilearn from "../../assets/images/logo-autilearn.png";
 
 export function Home() {
   const navigate = useNavigate();
@@ -46,6 +47,9 @@ export function Home() {
     <div className="box-container">
       <div className="sound-button-wrapper">
         <SoundButton />
+      </div>
+      <div className="logo-container">
+        <img src={logoAutilearn} alt="AutiLearn Logo" className="logo-autilearn" />
       </div>
       <div className="menu-container">
         <div className="buttons-list">

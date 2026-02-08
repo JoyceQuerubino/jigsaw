@@ -111,7 +111,8 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
         username: playerName,
         gameTitile: title,
         time: formatTime(time),
-        difficulty
+        difficulty,
+        date: new Date().toISOString()
       });
     },
     onSuccess: () => {
