@@ -39,6 +39,12 @@
     flex-direction: column;
 }
 
+@media (min-width: 1601px) {
+  .game-container {
+    max-width: none;
+  }
+}
+
 .content-container {
     flex: 1;
     min-height: 0;

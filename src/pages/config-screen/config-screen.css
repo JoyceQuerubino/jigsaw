@@ -145,3 +145,95 @@
 .toggle-checkbox:checked + .toggle-switch::before {
   transform: translateX(30px);
 }
+
+/* Telas > 1600px: elementos maiores e melhor distribuídos */
+@media (min-width: 1601px) {
+  .config-screen-container {
+    margin-top: 2.5rem;
+    gap: 3rem;
+  }
+
+  .first-container {
+    width: 55%;
+  }
+
+  .container-image {
+    width: 950px;
+    height: 620px;
+    border-width: 14px;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0, 126, 184, 0.5);
+  }
+
+  .container-image img {
+    border-radius: 10px;
+  }
+
+  .container-texts {
+    width: 45%;
+    height: 620px;
+    gap: 28px;
+    padding-left: 3rem;
+    justify-content: center;
+  }
+
+  .config-screen-container .container-texts p {
+    font-size: 28px;
+  }
+
+  .config-screen-container .pieces-options {
+    gap: 1.25rem;
+  }
+
+  .config-screen-container .piece-option {
+    padding: 0.75rem 1.5rem;
+    font-size: 22px;
+    border-radius: 10px;
+  }
+
+  .config-screen-container .container-player {
+    margin-bottom: 20px;
+  }
+
+  .config-screen-container .input-texts-container p {
+    font-size: 28px;
+  }
+
+  .config-screen-container .input-container {
+    width: 420px;
+    height: 80px;
+  }
+
+  .config-screen-container .input-container input {
+    font-size: 28px;
+    padding: 0 1.25rem;
+  }
+
+  .config-screen-container .toggle-container {
+    margin-bottom: 56px;
+  }
+
+  .config-screen-container .toggle-label {
+    font-size: 28px;
+    gap: 1.25rem;
+  }
+
+  .config-screen-container .toggle-switch {
+    width: 72px;
+    height: 36px;
+    border-radius: 36px;
+  }
+
+  .config-screen-container .toggle-switch::before {
+    width: 30px;
+    height: 30px;
+  }
+
+  .config-screen-container .toggle-checkbox:checked + .toggle-switch::before {
+    transform: translateX(36px);
+  }
+
+  .config-screen-container .start-button img {
+    max-width: 260px;
+  }
+}

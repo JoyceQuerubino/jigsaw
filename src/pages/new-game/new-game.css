@@ -80,3 +80,68 @@
   color: #666;
   text-align: center;
 }
+
+/* Telas > 1600px: elementos maiores e melhor distribuídos (Novo Jogo / Editar Jogo) */
+@media (min-width: 1601px) {
+  .new-game-screen-container {
+    margin-top: 2.5rem;
+    gap: 3rem;
+    padding: 24px;
+  }
+
+  .new-game-first-container {
+    width: 55%;
+  }
+
+  .new-game-container-image {
+    width: 950px;
+    height: 620px;
+    border-width: 14px;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0, 126, 184, 0.5);
+  }
+
+  .new-game-second-wrapper {
+    width: 45%;
+    height: 620px;
+  }
+
+  .new-game-second-container {
+    height: 620px;
+    gap: 1.5rem;
+    padding: 32px;
+  }
+
+  .new-game-second-container p,
+  .new-game-screen-container .container-texts p {
+    font-size: 28px;
+  }
+
+  .new-game-second-top {
+    max-width: 560px;
+    gap: 1.25rem;
+  }
+
+  .new-game-screen-container .input-texts-container p {
+    font-size: 28px;
+  }
+
+  .new-game-screen-container .input-container {
+    width: 420px;
+    height: 80px;
+  }
+
+  .new-game-screen-container .input-container input {
+    font-size: 28px;
+    padding: 0 1.25rem;
+  }
+
+  .new-game-screen-container .button img {
+    max-width: 320px !important;
+    height: 80px !important;
+  }
+
+  .new-game-screen-container .button p {
+    font-size: 28px !important;
+  }
+}

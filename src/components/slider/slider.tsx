@@ -1,6 +1,7 @@
 import "./slider.css";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import btnBack from "../../assets/images/slider/btn-back.png";
 import btnGo from "../../assets/images/slider/btn-go.png";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,8 @@ interface SliderProps {
   cardsData: CardData[];
   goConfig?: boolean;
   onNavigate?: (card: CardData) => void;
+  /** Em telas > 1600px, aumenta cards e espaço do carrossel (modelo e tema) */
+  largeCardsOnWideScreen?: boolean;
 }
 
 function Card({ title, id, disabled, image, goConfig, onNavigate }: CardData & { onNavigate?: (card: CardData) => void }) {
@@ -53,12 +56,17 @@ function Card({ title, id, disabled, image, goConfig, onNavigate }: CardData & {
   );
 }
 
-export function Slider({ cardsData, goConfig, onNavigate }: SliderProps) {
+const CARD_WIDTH_DEFAULT = 400;
+const CARD_WIDTH_LARGE = 520;
+
+export function Slider({ cardsData, goConfig, onNavigate, largeCardsOnWideScreen }: SliderProps) {
   const carousel = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
   const controls = useAnimation();
   const [currentX, setCurrentX] = useState(0);
-  const cardWidth = 400; // largura do card
+  const isWideScreen = useMediaQuery("(min-width: 1601px)");
+  const useLargeCards = largeCardsOnWideScreen && isWideScreen;
+  const cardWidth = useLargeCards ? CARD_WIDTH_LARGE : CARD_WIDTH_DEFAULT;
 
   useEffect(() => {
     if (carousel.current) {
@@ -68,7 +76,7 @@ export function Slider({ cardsData, goConfig, onNavigate }: SliderProps) {
       const totalWidth = scrollWidth - offsetWidth + cardWidth;
       setWidth(totalWidth);
     }
-  }, []);
+  }, [cardWidth]);
 
   const handleNext = async () => {
     const nextX = Math.max(-width, currentX - cardWidth);
@@ -88,9 +96,17 @@ export function Slider({ cardsData, goConfig, onNavigate }: SliderProps) {
     });
   };
 
+  const canGoPrev = width > 0 && currentX < 0;
+  const canGoNext = width > 0 && currentX > -width;
+
   return (
-    <div className="slider-container">
-      <button className="nav-button prev" onClick={handlePrev}>
+    <div className={`slider-container${useLargeCards ? " slider-large" : ""}`}>
+      <button
+        className="nav-button prev"
+        onClick={handlePrev}
+        disabled={!canGoPrev}
+        aria-label="Anterior"
+      >
         <img src={btnBack} alt="Voltar" />
       </button>
 
@@ -116,7 +132,12 @@ export function Slider({ cardsData, goConfig, onNavigate }: SliderProps) {
         </motion.div>
       </motion.div>
 
-      <button className="nav-button next" onClick={handleNext}>
+      <button
+        className="nav-button next"
+        onClick={handleNext}
+        disabled={!canGoNext}
+        aria-label="Próximo"
+      >
         <img src={btnGo} alt="Avançar" />
       </button>
     </div>

@@ -39,6 +39,7 @@ export function MyGames() {
           <Slider
             cardsData={userGames}
             onNavigate={handleGameSelect}
+            largeCardsOnWideScreen
           />
         </div>
       ) : (

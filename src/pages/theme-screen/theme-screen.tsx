@@ -9,7 +9,7 @@ export function ThemeScreen() {
     <>
       {data && (
         <div className="theme-container">
-          <Slider cardsData={data} goConfig />
+          <Slider cardsData={data} goConfig largeCardsOnWideScreen />
         </div>
       )}
     </>

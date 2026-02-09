@@ -26,7 +26,7 @@ const cardsData = [
 export function ModelScreen() {
   return (
     <div className="model-container">
-        <Slider cardsData={cardsData} goConfig={false}/>
+        <Slider cardsData={cardsData} goConfig={false} largeCardsOnWideScreen />
     </div>
   );
 }

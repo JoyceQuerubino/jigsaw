@@ -8,10 +8,17 @@
   flex-direction: column;
 }
 
-.slider-container {
+@media (min-width: 1601px) {
+  .container-my-games {
+    max-width: 1920px;
+  }
+}
+
+.container-my-games .slider-container {
   width: 100%;
   min-width: 0;
   margin: 0 auto;
+  margin-top: 2rem;
   display: flex;
   flex-direction: row;
   align-items: center;
