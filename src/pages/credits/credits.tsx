@@ -21,7 +21,7 @@ export function Credits() {
           </div>
           <div className="credits-col">
             <div className="credits-col-row">
-              <h3>Mestranda</h3>
+              <h3>Game Designer</h3>
               <p>Geisse Rosane de Faria Dias Costa</p>
             </div>
             <div className="credits-col-row">
