@@ -165,7 +165,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
 
   const resetInactivityTimeout = () => {
     if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
-    inactivityTimeoutRef.current = setTimeout(() => setAnimationState(4), 10000);
+    inactivityTimeoutRef.current = setTimeout(() => setAnimationState(3), 10000);
   };
   
   const PIECE_SIZE = useMemo(() => Math.min(
@@ -351,7 +351,7 @@ const PuzzleGame = forwardRef<PuzzleGameRef, PuzzleGameProps>(({ difficulty, set
             }
           }
         }
-        if (!isPlaced) setAnimationState(3);
+        if (!isPlaced) setAnimationState(4);
       }
 
       const updatedPieces = prevPieces.map(p => p.id === id ? { ...p, x: finalX, y: finalY, isPlaced } : p);
